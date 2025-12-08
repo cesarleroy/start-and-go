@@ -89,6 +89,48 @@ Recepcionista
 - Modo claro/oscuro adaptable a preferencias del usuario.
 - Sistema de ayuda.
 
+## Ejecutar
+
+1. Clonar el repositorio
+```bash
+git clone https://github.com/cesarleroy/start-and-go.git
+```
+2. Navegar a la carpeta
+```bash
+cd start-and-go
+```
+3. Crear una copia de del archivo `.env.example`
+```bash
+cp .env.example .env
+```
+> o bien si lo prefieres de forma manual desde el explorador de archivos, solamente renombrandolo a `.env`
+4. Editar el archivo nuevo ajustando los parámetros del servidor y bd
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=escuela
+DB_USERNAME=root
+DB_PASSWORD=<tu_contra>
+```
+> Crear previamente la bd `escuela`
+5. Instalar dependencias
+```bash
+composer install
+```
+6. Generar la llave de la aplicación
+```bash
+php artisan key:generate
+```
+7. Ejecutar migraciones
+```bash
+php artisan migrate
+```
+8. Correr la app
+```bash
+php artisan serve
+```
+
 ## Autores
 
 - [@Max](https://github.com/)
