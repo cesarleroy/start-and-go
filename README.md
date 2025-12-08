@@ -93,7 +93,7 @@ Recepcionista
 
 - [@Max](https://github.com/)
 - [@César](https://github.com/cesarleroy)
-- [@Osvaldo](https://github.com/)
+- [@Osva](https://github.com/Osvadeb)
 
 ## Licencia
 
