@@ -49,13 +49,47 @@
             </tbody>
         </table>
 
-        <img src="{{ asset('img/agregar.png') }}" 
+        @include('alumnos.modals.agregar')
+        <!--<img src="{{ asset('img/agregar.png') }}" 
         alt="Agregar" 
         style="width: 60px; cursor:pointer;"
          data-bs-toggle="modal"
-        data-bs-target="#modalAgregarAlumno">
+        data-bs-target="#modalAgregarAlumno">-->
 
-        @include('alumnos.modals.agregar')
+        <img src="{{ asset('img/agregar.png') }}" 
+        id="btnAbrirModal"
+        style="width: 60px; cursor:pointer;">
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const boton = document.getElementById("btnAbrirModal");
+        const modal = document.getElementById("modalAgregarAlumno");
+        const cerrar = document.getElementById("btnCancelarModalAgregarAlumno");
+
+        // ABRIR
+        boton.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
+
+        // CERRAR
+        cerrar.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // CERRAR haciendo clic fuera del modal
+        window.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+    });
+</script>
+
     </body>
 </html>
 
