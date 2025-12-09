@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlumnoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,5 +39,7 @@ Route::get('/admin-panel', function () {
     Gate::authorize('solo-admin');
     return "Bienvenido Administrador";
 })->middleware('auth');
+
+Route::resource('alumnos', AlumnoController::class);
 
 require __DIR__.'/auth.php';
