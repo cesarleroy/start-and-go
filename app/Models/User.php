@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function esRecepcionista()
+    {
+        return $this->role === 'recepcionista';
+    }
 }
