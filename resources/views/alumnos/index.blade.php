@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,6 +48,14 @@
                 @endforeach
             </tbody>
         </table>
+
+        <img src="{{ asset('img/agregar.png') }}" 
+        alt="Agregar" 
+        style="width: 60px; cursor:pointer;"
+         data-bs-toggle="modal"
+        data-bs-target="#modalAgregarAlumno">
+
+        @include('alumnos.modals.agregar')
     </body>
 </html>
 
