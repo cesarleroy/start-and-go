@@ -67,19 +67,19 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="inputApP" class="form-label">Apellido Paterno</label>
-                                <input type="text" name="apellido_paterno" class="form-control" id="inputApP" required>
+                                <input type="text" name="apellido_p" class="form-control" id="inputApP" required>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="inputApM" class="form-label">Apellido Materno</label>
-                                <input type="text" name="apellido_materno" class="form-control" id="inputApM">
+                                <input type="text" name="apellido_m" class="form-control" id="inputApM">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="inputFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" name="fecha_nacimiento" class="form-control" id="inputFechaNacimiento" required>
+                                <input type="date" name="fecha_nac" class="form-control" id="inputFechaNacimiento" required>
                             </div>
 
                             <div class="col-md-6">

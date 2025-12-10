@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Alumno extends Model
 {
     protected $table = 'alumnos';
+    use HasFactory;
 
     protected $fillable = [
         'rfc',
@@ -20,7 +22,7 @@ class Alumno extends Model
         'alcaldia',
         'permiso',
         'observaciones',
-        'correo',
+        'correo'
     ];
 
     public function pagos()

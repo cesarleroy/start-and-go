@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('alumnos', function (Blueprint $table) {
             $table->id();
-            $table->string('rfc', 13)->unique();
-            $table->string('nombre', 30);
-            $table->string('apellido_p', 30);
-            $table->string('apellido_m', 30);
+            $table->string('rfc');
+            $table->string('nombre');
+            $table->string('apellido_p');
+            $table->string('apellido_m')->nullable();
             $table->date('fecha_nac');
-            $table->string('calle', 30);
-            $table->integer('numero');
-            $table->string('colonia', 30);
-            $table->string('alcaldia', 30);
-            $table->enum('permiso', ['SI', 'NO', 'EN TRÁMITE']);
-            $table->string('observaciones', 100);
-            $table->string('correo', 100);
-            $table->timestamps();
+            $table->string('calle');
+            $table->string('numero');
+            $table->string('colonia');
+            $table->string('alcaldia');
+            $table->string('permiso');
+            $table->text('observaciones')->nullable();
+            $table->string('correo')->nullable();
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
