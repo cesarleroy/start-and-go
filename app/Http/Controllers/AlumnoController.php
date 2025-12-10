@@ -27,10 +27,44 @@ class AlumnoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        //
+        // Validar los datos
+        $validated = $request->validate([
+        'rfc' => 'required|string|max:255',
+        'nombre' => 'required|string|max:255',
+        'apellido_paterno' => 'required|string|max:255',
+        'apellido_materno' => 'nullable|string|max:255',
+        'fecha_nacimiento' => 'required|date',
+        'calle' => 'required|string|max:255',
+        'numero' => 'required|string|max:255',
+        'colonia' => 'required|string|max:255',
+        'alcaldia' => 'required|string|max:255',
+        'permiso' => 'required|string|max:255',
+        'correo' => 'required|email|max:255',
+        'observaciones' => 'nullable|string|max:1000',
+    ]);
+
+        // Crear un nuevo alumno
+        Alumno::create([
+            'rfc' => $request->rfc,
+            'nombre' => $request->nombre,
+            'apellido_p' => $request->apellido_p,
+            'apellido_m' => $request->apellido_m,
+            'fecha_nac' => $request->fecha_nacimiento,
+            'calle' => $request->calle,
+            'numero' => $request->numero,
+            'colonia' => $request->colonia,
+            'alcaldia' => $request->alcaldia,
+            'permiso' => $request->permiso,
+            'observaciones' => $request->observaciones,
+            'correo' => $request->correo,
+        ]);
+
+        // Redireccionar con mensaje
+        return redirect()->route('alumnos.index')->with('success', 'Alumno agregado con éxito');
     }
+
 
     /**
      * Display the specified resource.
