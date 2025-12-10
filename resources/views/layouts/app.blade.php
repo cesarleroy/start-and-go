@@ -50,7 +50,7 @@
                 </a>
 
                 @if(auth()->user()->esAdmin())
-                <a href="#" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('empleados.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
                     <i class="fa-solid fa-user-tie w-6 text-center mr-3"></i>
                     Empleados
                 </a>
