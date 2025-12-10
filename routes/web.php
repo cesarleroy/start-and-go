@@ -43,6 +43,7 @@ Route::get('/admin-panel', function () {
 
 Route::resource('alumnos', AlumnoController::class);
 
+Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
 
 Route::resource('empleados', EmpleadoController::class);
 
