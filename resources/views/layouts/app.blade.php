@@ -107,11 +107,7 @@
                 </div>
 
                 <div class="flex items-center">
-<<<<<<< HEAD
-                    <a href="{{ route('alumnos.index') }}" class="text-yellow-500 hover:text-yellow-600 text-xl">
-=======
                     <a href="{{ route('ayuda.index') }}" class="text-yellow-500 hover:text-yellow-600 text-xl">
->>>>>>> db77dfc208c964e37731085288df24d7d5605890
                         <i class="fas fa-lightbulb"></i>
                     </a>
                 </div>
