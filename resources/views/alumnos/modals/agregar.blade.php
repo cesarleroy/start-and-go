@@ -41,10 +41,8 @@
         <div class="modal-content" id="modalAgregarAlumnoContent">
 
         <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title">Agregar Alumno</h5>
+            <h3 class="modal-title">Agregar Alumno</h3>
 
-            <!-- Botón para cerrar el modal -->
-            <button type="button" class="btn-close" id="btnCerrarModalAgregarAlumno"></button>
         </div>
 
         <form action="{{ route('alumnos.store') }}" method="POST" id="formAgregarAlumno">
