@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="flex items-center">
-                    <a href="#" class="text-yellow-500 hover:text-yellow-600 text-xl">
+                    <a href="{{ route('ayuda.index') }}" class="text-yellow-500 hover:text-yellow-600 text-xl">
                         <i class="fas fa-lightbulb"></i>
                     </a>
                 </div>

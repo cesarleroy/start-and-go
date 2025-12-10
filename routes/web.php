@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\AyudaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,3 +48,9 @@ Route::resource('alumnos', AlumnoController::class);
 Route::resource('empleados', EmpleadoController::class);
 
 require __DIR__.'/auth.php';
+
+
+// Sistema de Ayuda
+Route::middleware(['auth'])->group(function () {
+    Route::view('/ayuda', 'ayuda.index')->name('ayuda.index');
+});
