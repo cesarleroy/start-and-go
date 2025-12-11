@@ -18,7 +18,7 @@ class PagosController extends Controller
                     ->get();
         
         // Obtener alumnos para el select
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         
@@ -30,7 +30,7 @@ class PagosController extends Controller
 
     public function create()
     {
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         
@@ -87,7 +87,7 @@ class PagosController extends Controller
                    ->where('fecha_pago', $fecha_pago)
                    ->firstOrFail();
         
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         

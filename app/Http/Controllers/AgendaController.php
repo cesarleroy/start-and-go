@@ -20,12 +20,12 @@ class AgendaController extends Controller
                         ->get();
         
         // Obtener empleados
-        $empleados = Empleado::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                             ->orderBy('nombre')
                             ->get();
         
         // Obtener alumnos
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         
@@ -34,11 +34,11 @@ class AgendaController extends Controller
 
     public function create()
     {
-        $empleados = Empleado::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                             ->orderBy('nombre')
                             ->get();
         
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         
@@ -98,11 +98,11 @@ class AgendaController extends Controller
     {
         $agenda = Agenda::findOrFail($id);
         
-        $empleados = Empleado::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                             ->orderBy('nombre')
                             ->get();
         
-        $alumnos = Alumno::select('id', 'rfc', 'nombre', 'apellido_p', 'apellido_m')
+        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
         
