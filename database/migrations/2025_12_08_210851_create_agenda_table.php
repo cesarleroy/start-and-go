@@ -6,48 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('agenda', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-
-            $table->string('rfc_emp', 13);
-            $table->date('fecha');
-            $table->time('hora');
+            // Clave primaria compuesta (igual que tu BD)
+            $table->string('RFC_EMP', 13);
+            $table->date('FECHA');
+            $table->time('HORA');
             
-            // Columnas para conectar con PAGOS
-            $table->string('rfc_cliente', 13);
-            $table->date('fecha_pago');
-
-            // Detalles de la actividad
-            $table->enum('actividad', ['EXAMEN', 'LECCIÓN']);
-            $table->integer('km_recorridos')->nullable(); // En SQL no dice NOT NULL -> nullable
-            $table->string('notas', 50)->nullable();
+            // Resto de campos (con nombres exactos)
+            $table->string('RFC_CLIENTE', 13);
+            $table->date('FECHA_PAGO');
+            $table->enum('ACTIVIDAD', ['EXAMEN', 'LECCIÓN'])->nullable();
+            $table->integer('KM_RECORRIDOS')->nullable();
+            $table->string('NOTAS', 50)->nullable();
+            $table->integer('EXAM_TEO')->nullable();
+            $table->integer('EXAM_PRAC')->nullable();
+            $table->string('NOTAS_RESULTADO', 50)->nullable();
             
-            $table->integer('exam_teo')->nullable();
-            $table->integer('exam_prac')->nullable();
-            $table->string('notas_resultado', 50)->nullable();
-
-            $table->unique(['fecha', 'hora', 'rfc_emp']);
-
-            $table->foreign('rfc_emp')
-                  ->references('rfc')->on('empleados')
-                  ->onUpdate('cascade');
-
-            $table->foreign(['rfc_cliente', 'fecha_pago'])
-                  ->references(['rfc_cliente', 'fecha_pago'])->on('pagos')
-                  ->onUpdate('cascade');
+            // Claves primarias compuestas
+            $table->primary(['FECHA', 'HORA', 'RFC_EMP']);
+            
+            // Índices para relaciones
+            $table->foreign('RFC_EMP')->references('RFC_EMP')->on('empleados');
+            $table->foreign(['RFC_CLIENTE', 'FECHA_PAGO'])
+                  ->references(['RFC_CLIENTE', 'FECHA_PAGO'])->on('pagos');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('agenda');
     }

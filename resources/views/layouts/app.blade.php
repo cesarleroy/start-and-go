@@ -61,12 +61,12 @@
                     Alumnos
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('pagos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
                     <i class="fas fa-money-bill-wave w-6 text-center mr-3"></i>
                     Pagos
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('agenda.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
                     <i class="fas fa-calendar-alt w-6 text-center mr-3"></i>
                     Agenda
                 </a>
@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="flex items-center">
-                    <a href="{{ route('ayuda.index') }}" class="text-yellow-500 hover:text-yellow-600 text-xl">
+                    <a href="/ayuda" class="text-yellow-500 hover:text-yellow-600 text-xl">
                         <i class="fas fa-lightbulb"></i>
                     </a>
                 </div>
@@ -141,7 +141,13 @@
           </main>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+  
+
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS Bundle (con Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

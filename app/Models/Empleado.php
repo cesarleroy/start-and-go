@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Empleado extends Model
 {
     protected $table = 'empleados';
-    protected $primaryKey = 'rfc';
-    protected $keyType = 'string';
-    public $incrementing = false;
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    public $timestamps = true; // Tiene created_at y updated_at
 
     protected $fillable = [
         'rfc',
@@ -25,11 +25,22 @@ class Empleado extends Model
         'calle',
         'numero',
         'colonia',
-        'alcaldia',
+        'alcaldia'
     ];
 
-    public function agenda()
+    protected $casts = [
+        'fecha_nac' => 'date',
+    ];
+
+    // Relación con Agenda (usa RFC, no ID)
+    public function agendas()
     {
         return $this->hasMany(Agenda::class, 'rfc_emp', 'rfc');
+    }
+    
+    // Accessor para nombre completo
+    public function getNombreCompletoAttribute()
+    {
+        return trim("{$this->nombre} {$this->apellido_p} {$this->apellido_m}");
     }
 }

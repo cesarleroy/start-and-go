@@ -6,6 +6,8 @@ use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\AyudaController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\PagosController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +61,32 @@ require __DIR__.'/auth.php';
 
 
 // Sistema de Ayuda
+Route::get('/ayuda', function () {
+    return view('ayuda.index');
+})->name('ayuda');
+
+// Rutas para Agenda
 Route::middleware(['auth'])->group(function () {
-    Route::view('/ayuda', 'ayuda.index')->name('ayuda.index');
+    Route::resource('agenda', AgendaController::class);
+    
+    // Ruta adicional para obtener pagos de un alumno (opcional, para mejorar UX)
+    Route::get('agenda/pagos/{rfc}', [AgendaController::class, 'getPagosByAlumno'])
+        ->name('agenda.pagos');
+});
+
+// Rutas para Pagos
+Route::middleware(['auth'])->group(function () {
+    // Index y create usan las rutas normales
+    Route::get('pagos', [PagosController::class, 'index'])->name('pagos.index');
+    Route::get('pagos/create', [PagosController::class, 'create'])->name('pagos.create');
+    Route::post('pagos', [PagosController::class, 'store'])->name('pagos.store');
+    
+    // Edit, update y destroy necesitan dos parámetros (llave compuesta)
+    Route::get('pagos/{rfc_cliente}/{fecha_pago}/edit', [PagosController::class, 'edit'])->name('pagos.edit');
+    Route::put('pagos/{rfc_cliente}/{fecha_pago}', [PagosController::class, 'update'])->name('pagos.update');
+    Route::delete('pagos/{rfc_cliente}/{fecha_pago}', [PagosController::class, 'destroy'])->name('pagos.destroy');
+    
+    // Ruta auxiliar para obtener precio de contratación
+    Route::get('pagos/precio/{tipo}', [PagosController::class, 'getPrecioContratacion'])
+        ->name('pagos.precio');
 });
