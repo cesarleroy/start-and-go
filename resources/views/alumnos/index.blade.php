@@ -89,8 +89,8 @@
                                 <td>
                                     <div class="d-flex gap-2">
 
-                                        {{-- BOTÓN EDITAR --}}
-                                        <button class="btn btn-sm btn-warning text-white btn-editar-alumno"
+                                        {{-- EDITAR --}}
+                                        <button class="btn btn-sm btn-warning text-white d-flex align-items-center justify-content-center btn-editar-alumno" style="width: 30px; height: 30px;"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditarAlumno"
                                                 data-rfc="{{ $alumno->rfc }}"
@@ -105,15 +105,15 @@
                                                 data-permiso="{{ $alumno->permiso }}"
                                                 data-observaciones="{{ $alumno->observaciones }}"
                                                 data-correo="{{ $alumno->correo }}">
-                                                <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </button>
 
                                         {{-- BOTÓN ELIMINAR --}}
-                                        <form action="{{ route('alumnos.destroy', $alumno->rfc) }}">
+                                        <form action="{{ route('alumnos.destroy', $alumno->rfc) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" 
-                                                    class="btn btn-sm btn-danger"
+                                            <button class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                                                    style="width: 30px; height: 30px;"
                                                     onclick="return confirm('¿Deseas eliminar este alumno?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -163,6 +163,11 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+    console.log("JS de alumnos cargado correctamente");
+
+    // ================================
+    //  BUSCADOR
+    // ================================
     const input = document.getElementById('busquedaTabla');
 
     input.addEventListener('keyup', function() {
@@ -174,16 +179,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-
+    // ================================
+    //  MODAL DE EDITAR ALUMNO
+    // ================================
     const botonesEditar = document.querySelectorAll('.btn-editar-alumno');
 
     botonesEditar.forEach(boton => {
         boton.addEventListener('click', function () {
 
-            // Rellenar campos del modal con data-attributes
             document.getElementById('edit_rfc').value           = this.dataset.rfc;
             document.getElementById('edit_nombre').value        = this.dataset.nombre;
             document.getElementById('edit_apellido_p').value    = this.dataset.apellido_p;
@@ -197,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('edit_correo').value        = this.dataset.correo;
             document.getElementById('edit_observaciones').value = this.dataset.observaciones;
 
-            // Cambiar la acción del formulario para actualizar
+            // Actualizar la acción del formulario
             const form = document.getElementById('formEditarAlumno');
             form.action = `/alumnos/${this.dataset.rfc}`;
         });
@@ -206,3 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endpush
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
