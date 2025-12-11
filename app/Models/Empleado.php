@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Empleado extends Model
 {
     protected $table = 'empleados';
-    protected $primaryKey = 'id';
-    public $incrementing = true;
-    public $timestamps = true; // Tiene created_at y updated_at
+    
+    protected $primaryKey = 'rfc';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    public $timestamps = true;
 
     protected $fillable = [
         'rfc',

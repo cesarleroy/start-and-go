@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Alumno extends Model
 {
     protected $table = 'alumnos';
-    protected $primaryKey = 'id';
-    public $incrementing = true;
+    protected $primaryKey = 'rfc';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = true;
 
     protected $fillable = [

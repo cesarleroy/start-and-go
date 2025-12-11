@@ -43,9 +43,9 @@ class Agenda extends Model
     }
     
     // Relación con Pago (más compleja por llave compuesta)
-    public function pago()
+     public function pago()
     {
-        return $this->belongsTo(Pago::class, 'rfc_cliente', 'rfc_cliente')
-                    ->where('pagos.fecha_pago', '=', $this->fecha_pago);
+        return $this->hasOne(Pago::class, 'rfc_cliente', 'rfc_cliente')
+            ->whereColumn('pagos.fecha_pago', 'agenda.fecha_pago');
     }
 }

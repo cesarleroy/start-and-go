@@ -28,7 +28,7 @@ return new class extends Migration
             $table->primary(['FECHA', 'HORA', 'RFC_EMP']);
             
             // Índices para relaciones
-            $table->foreign('RFC_EMP')->references('RFC_EMP')->on('empleados');
+            $table->foreign('rfc_emp')->references('rfc')->on('empleados');
             $table->foreign(['RFC_CLIENTE', 'FECHA_PAGO'])
                   ->references(['RFC_CLIENTE', 'FECHA_PAGO'])->on('pagos');
         });
