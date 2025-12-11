@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     protected $table = 'agenda';
-    protected $primaryKey = ['fecha','hora','rfc_emp'];
-    public $incrementing = false;
+    
+    protected $primaryKey = 'id';
+    public $incrementing = true; 
     public $timestamps = true;
 
     protected $fillable = [
@@ -30,22 +31,21 @@ class Agenda extends Model
         'fecha_pago' => 'date',
     ];
 
-    // Relación con Empleado (usa RFC del empleado)
+    // Relaciones (se mantienen igual)
     public function empleado()
     {
         return $this->belongsTo(Empleado::class, 'rfc_emp', 'rfc');
     }
 
-    // Relación con Alumno (usa RFC del cliente)
     public function alumno()
     {
         return $this->belongsTo(Alumno::class, 'rfc_cliente', 'rfc');
     }
     
-    // Relación con Pago (más compleja por llave compuesta)
-     public function pago()
+    public function pago()
     {
-        return $this->hasOne(Pago::class, 'rfc_cliente', 'rfc_cliente')
-            ->whereColumn('pagos.fecha_pago', 'agenda.fecha_pago');
+        // Relación ajustada para buscar por cliente y fecha de pago
+        return $this->belongsTo(Pago::class, 'rfc_cliente', 'rfc_cliente')
+                    ->where('fecha_pago', $this->fecha_pago);
     }
 }

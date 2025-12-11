@@ -8,97 +8,90 @@ use App\Http\Controllers\AyudaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\PagosController;
+use Illuminate\Support\Facades\Gate; 
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// --- RUTAS PÚBLICAS ---
 Route::get('/', function () {
     return view('welcome');
 });
 
+// --- RUTA DE INICIO (Verificada) ---
 Route::get('/inicio', function () {
     return view('inicio');
 })->middleware(['auth', 'verified'])->name('inicio');
 
-Route::middleware('auth')->group(function () {
+
+// =========================================================================
+// 🔒 GRUPO DE ADMINISTRACIÓN (Solo usuarios con rol 'admin')
+// =========================================================================
+Route::middleware(['auth', 'admin'])->group(function () {
+    
+    // 1. Gestión de Empleados (CRUD Completo)
+    Route::resource('empleados', EmpleadoController::class);
+
+    // 2. Reportes y Estado de Cuenta
+    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    Route::get('/estado-cuenta', [ReporteController::class, 'estadoCuenta'])->name('reportes.estado_cuenta');
+
+    // (Opcional) Ruta de prueba para verificar acceso admin
+    Route::get('/admin-panel', function () {
+        return "Bienvenido al Panel de Admin (Acceso Correcto)";
+    });
+});
+
+
+// =========================================================================
+// 👤 GRUPO GENERAL (Usuarios autenticados: Recepcionistas, Admins, etc.)
+// =========================================================================
+Route::middleware(['auth'])->group(function () {
+
+    // --- Perfil de Usuario ---
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
-    Route::get('/estado-cuenta', [ReporteController::class, 'estadoCuenta'])->name('reportes.estado_cuenta');
-});
+    // --- Sistema de Ayuda ---
+    Route::get('/ayuda', [AyudaController::class, 'index'])->name('ayuda.index');
 
+    // --- Gestión de Alumnos ---
+    Route::resource('alumnos', AlumnoController::class);
+    Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
+    // Ruta específica para eliminar (aunque resource ya la trae, la mantenemos por seguridad si la usas así)
+    Route::delete('/alumnos/{alumno}', [AlumnoController::class, 'destroy'])->name('alumnos.destroy');
 
-// 4 rutas nuevas de prueba para los tipos de usuario
-Route::get('/admin', function () {
-    Gate::authorize('solo-admin');
-    return "Bienvenido, Administrador";
-})->middleware(['auth']);
-
-Route::get('/recepcion', function () {
-    Gate::authorize('solo-recepcionista');
-    return "Bienvenido, Recepcionista";
-})->middleware(['auth']);
-
-Route::get('/panel-general', function () {
-    Gate::authorize('admin-o-recepcionista');
-    return "Acceso permitido";
-})->middleware(['auth']);
-
-//probar el admin
-Route::get('/admin-panel', function () {
-    Gate::authorize('solo-admin');
-    return "Bienvenido Administrador";
-})->middleware('auth');
-
-Route::resource('empleados', EmpleadoController::class);
-
-require __DIR__.'/auth.php';
-
-
-// Sistema de Ayuda
-Route::get('/ayuda', function () {
-    return view('ayuda.index');
-})->name('ayuda');
-
-// Rutas para Agenda
-Route::middleware(['auth'])->group(function () {
-
+    // --- Gestión de Agenda ---
     Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::get('agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
     Route::post('agenda', [AgendaController::class, 'store'])->name('agenda.store');
+    Route::get('agenda/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
+    Route::put('agenda/{id}', [AgendaController::class, 'update'])->name('agenda.update');
+    
+    // CORRECCIÓN: Usamos {id} para eliminar, coincidiendo con tu controlador y vista
+    Route::delete('agenda/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
+    
+    // AJAX para obtener pagos
+    Route::get('agenda/pagos/{rfc}', [AgendaController::class, 'getPagosByAlumno'])->name('agenda.pagos');
 
-    Route::put('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'update'])
-        ->name('agenda.update');
-
-    Route::delete('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'destroy'])
-        ->name('agenda.destroy');
-
-    Route::get('agenda/pagos/{rfc}', [AgendaController::class, 'getPagosByAlumno'])
-        ->name('agenda.pagos');
-});
-
-
-// Rutas para Pagos
-Route::middleware(['auth'])->group(function () {
-    // Index y create usan las rutas normales
+    // --- Gestión de Pagos ---
     Route::get('pagos', [PagosController::class, 'index'])->name('pagos.index');
     Route::get('pagos/create', [PagosController::class, 'create'])->name('pagos.create');
     Route::post('pagos', [PagosController::class, 'store'])->name('pagos.store');
-    
-    // Edit, update y destroy necesitan dos parámetros (llave compuesta)
+    // Pagos usa llave compuesta en URL
     Route::get('pagos/{rfc_cliente}/{fecha_pago}/edit', [PagosController::class, 'edit'])->name('pagos.edit');
     Route::put('pagos/{rfc_cliente}/{fecha_pago}', [PagosController::class, 'update'])->name('pagos.update');
     Route::delete('pagos/{rfc_cliente}/{fecha_pago}', [PagosController::class, 'destroy'])->name('pagos.destroy');
-    
-    // Ruta auxiliar para obtener precio de contratación
-    Route::get('pagos/precio/{tipo}', [PagosController::class, 'getPrecioContratacion'])
-        ->name('pagos.precio');
+    Route::get('pagos/precio/{tipo}', [PagosController::class, 'getPrecioContratacion'])->name('pagos.precio');
+
+    // --- Rutas de Prueba de Roles (Opcionales, puedes borrarlas si ya no las usas) ---
+    Route::get('/recepcion', function () {
+        return "Bienvenido, Recepcionista";
+    });
 });
 
-//Rutas para alumnos
-Route::delete('/alumnos/{alumno}', [AlumnoController::class, 'destroy'])
-    ->name('alumnos.destroy');
-
-Route::resource('alumnos', AlumnoController::class);
-
-Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
+require __DIR__.'/auth.php';
