@@ -69,33 +69,35 @@
                             @forelse($agendas as $agenda)
                             <tr>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-warning text-white btn-editar" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#modalModificarAgenda"
-                                                data-rfc_emp="{{ $agenda->rfc_emp }}"
-                                                data-fecha="{{ $agenda->fecha->format('Y-m-d') }}"
-                                                data-hora="{{ $agenda->hora }}"
-                                                data-rfc_cliente="{{ $agenda->rfc_cliente }}"
-                                                data-fecha_pago="{{ $agenda->fecha_pago->format('Y-m-d') }}"
-                                                data-actividad="{{ $agenda->actividad }}"
-                                                data-km="{{ $agenda->km_recorridos }}"
-                                                data-exam_teo="{{ $agenda->exam_teo }}"
-                                                data-exam_prac="{{ $agenda->exam_prac }}"
-                                                data-notas="{{ $agenda->notas }}"
-                                                data-resultado="{{ $agenda->notas_resultado }}">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                  <div class="d-flex gap-2">
+                                      <button class="btn btn-sm btn-warning text-white btn-editar" 
+                                              data-bs-toggle="modal" 
+                                              data-bs-target="#modalModificarAgenda"
+                                              data-id="{{ $agenda->id }}" 
+                                              data-rfc_emp="{{ $agenda->rfc_emp }}"
+                                              data-fecha="{{ optional($agenda->fecha)->format('Y-m-d') }}"
+                                              data-hora="{{ $agenda->hora }}"
+                                              data-rfc_cliente="{{ $agenda->rfc_cliente }}"
+                                              data-fecha_pago="{{ optional($agenda->fecha_pago)->format('Y-m-d') }}"
+                                              data-actividad="{{ $agenda->actividad }}"
+                                              data-km="{{ $agenda->km_recorridos }}"
+                                              data-exam_teo="{{ $agenda->exam_teo }}"
+                                              data-exam_prac="{{ $agenda->exam_prac }}"
+                                              data-notas="{{ $agenda->notas }}"
+                                              data-resultado="{{ $agenda->notas_resultado }}">
+                                          <i class="fas fa-edit"></i>
+                                      </button>
 
-                                        <form action="{{ route('agenda.destroy', ['fecha' => $agenda->fecha->format('Y-m-d'),'hora' => $agenda->hora,'rfc_emp' => $agenda->rfc_emp,]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                      <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" class="d-inline">
+                                          @csrf
+                                          @method('DELETE')
+                                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
+                                              <i class="fas fa-trash"></i>
+                                          </button>
+                                      </form>
+                                  </div>
+                              </td>
+
                                 <td>{{ $agenda->fecha->format('d/m/Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($agenda->hora)->format('H:i') }}</td>
                                 <td>
@@ -356,34 +358,33 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Lógica para el botón Editar
+        const botonesEditar = document.querySelectorAll('.btn-editar');
+        
+        botonesEditar.forEach(boton => {
+            boton.addEventListener('click', function() {
+                // 1. Obtener el ID del botón
+                const id = this.dataset.id; 
 
-    const botonesEditar = document.querySelectorAll('.btn-editar');
-    
-    botonesEditar.forEach(boton => {
-        boton.addEventListener('click', function() {
+                // 2. Llenar los campos del modal
+                document.getElementById('edit_rfc_emp').value = this.dataset.rfc_emp;
+                document.getElementById('edit_rfc_cliente').value = this.dataset.rfc_cliente;
+                document.getElementById('edit_fecha').value = this.dataset.fecha;
+                document.getElementById('edit_hora').value = this.dataset.hora;
+                document.getElementById('edit_fecha_pago').value = this.dataset.fecha_pago;
+                document.getElementById('edit_actividad').value = this.dataset.actividad;
+                document.getElementById('edit_km').value = this.dataset.km || '';
+                document.getElementById('edit_exam_teo').value = this.dataset.exam_teo || '';
+                document.getElementById('edit_exam_prac').value = this.dataset.exam_prac || '';
+                document.getElementById('edit_notas').value = this.dataset.notas || '';
+                document.getElementById('edit_resultado').value = this.dataset.resultado || '';
 
-            document.getElementById('edit_rfc_emp').value = this.dataset.rfc_emp;
-            document.getElementById('edit_rfc_cliente').value = this.dataset.rfc_cliente;
-            document.getElementById('edit_fecha').value = this.dataset.fecha;
-            document.getElementById('edit_hora').value = this.dataset.hora;
-            document.getElementById('edit_fecha_pago').value = this.dataset.fecha_pago;
-            document.getElementById('edit_actividad').value = this.dataset.actividad;
-            document.getElementById('edit_km').value = this.dataset.km || '';
-            document.getElementById('edit_exam_teo').value = this.dataset.exam_teo || '';
-            document.getElementById('edit_exam_prac').value = this.dataset.exam_prac || '';
-            document.getElementById('edit_notas').value = this.dataset.notas || '';
-            document.getElementById('edit_resultado').value = this.dataset.resultado || '';
-
-            // CORREGIDO: ruta para clave compuesta
-            const form = document.getElementById('formEditar');
-            form.action = `/agenda/${this.dataset.fecha}/${this.dataset.hora}/${this.dataset.rfc_emp}`;
+                const form = document.getElementById('formEditar');
+                form.action = `/agenda/${id}`; 
+            });
         });
-    });
 
-});
-
-
-        // Buscador básico en tabla
+        // Buscador básico (se queda igual)
         document.getElementById('busquedaTabla').addEventListener('keyup', function() {
             let searchText = this.value.toLowerCase();
             let tableRows = document.querySelectorAll('tbody tr');

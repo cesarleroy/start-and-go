@@ -6,37 +6,36 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('agenda', function (Blueprint $table) {
-            // Clave primaria compuesta (igual que tu BD)
+            $table->id();
+            $table->timestamps();
+
             $table->string('rfc_emp', 13);
             $table->date('fecha');
             $table->time('hora');
             
-            // Resto de campos (con nombres exactos)
             $table->string('rfc_cliente', 13);
             $table->date('fecha_pago');
-            $table->enum('actividad', ['examen', 'lección'])->nullable();
+
+            $table->enum('actividad', ['EXAMEN', 'LECCIÓN']);
             $table->integer('km_recorridos')->nullable();
             $table->string('notas', 50)->nullable();
+            
             $table->integer('exam_teo')->nullable();
             $table->integer('exam_prac')->nullable();
             $table->string('notas_resultado', 50)->nullable();
 
-            $table->timestamps();
-            
-            // Claves primarias compuestas
-            $table->primary(['fecha', 'hora', 'rfc_emp']);
-            
-            // Índices para relaciones
-            $table->foreign('rfc_emp')->references('rfc')->on('empleados');
-            $table->foreign(['rfc_cliente', 'fecha_pago'])
-                  ->references(['rfc_cliente', 'fecha_pago'])->on('pagos');
+            // Usamos UNIQUE en lugar de PRIMARY para evitar duplicados lógicos
+            $table->unique(['fecha', 'hora', 'rfc_emp']);
+
+            $table->foreign('rfc_emp')->references('rfc')->on('empleados')->onUpdate('cascade');
+            $table->foreign(['rfc_cliente', 'fecha_pago'])->references(['rfc_cliente', 'fecha_pago'])->on('pagos')->onUpdate('cascade');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('agenda');
     }

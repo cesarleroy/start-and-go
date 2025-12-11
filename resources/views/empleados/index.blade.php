@@ -66,7 +66,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-warning text-white btn-editar" 
+                                        <button class="btn btn-sm btn-warning text-white btn-editar-empleado" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#modalModificarEmpleado"
                                                 data-rfc="{{ $empleado->rfc }}"
@@ -83,6 +83,7 @@
                                                 data-colonia="{{ $empleado->colonia }}"
                                                 data-alcaldia="{{ $empleado->alcaldia }}"
                                                 data-descansos="{{ $empleado->descansos }}">
+                                                <i class="fas fa-edit"></i>
                                         </button>
 
 

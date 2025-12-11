@@ -7,7 +7,6 @@ use App\Models\Empleado;
 use App\Models\Alumno;
 use App\Models\Pago;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AgendaController extends Controller
 {
@@ -19,12 +18,11 @@ class AgendaController extends Controller
                         ->orderBy('hora')
                         ->get();
         
-        // Obtener empleados
+        // Listas para los filtros o modales si se necesitan
         $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                             ->orderBy('nombre')
                             ->get();
         
-        // Obtener alumnos
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
                         ->get();
@@ -34,44 +32,82 @@ class AgendaController extends Controller
 
     public function create()
     {
-        $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                            ->orderBy('nombre')
-                            ->get();
-        
-        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                        ->orderBy('nombre')
-                        ->get();
-        
-        // Obtener pagos disponibles
-        $pagos = Pago::with('alumno')
-                    ->orderBy('fecha_pago', 'desc')
-                    ->get();
-        
-        return view('agenda.create', compact('empleados', 'alumnos', 'pagos'));
+        // Este método se usa si tienes una vista separada para crear, 
+        // pero como usas modal en index, quizás no lo uses mucho.
+        $empleados = Empleado::all();
+        $alumnos = Alumno::all();
+        return view('agenda.create', compact('empleados', 'alumnos'));
     }
 
     public function store(Request $request)
     {
-        // Validación
+        // 1. Validaciones
         $validated = $request->validate([
             'rfc_emp' => 'required|exists:empleados,rfc',
+            'rfc_cliente' => 'required|exists:alumnos,rfc',
             'fecha' => 'required|date',
             'hora' => 'required',
-            'rfc_cliente' => 'required|exists:alumnos,rfc',
             'fecha_pago' => 'required|date',
             'actividad' => 'required|in:EXAMEN,LECCIÓN',
+            'km_recorridos' => 'nullable|integer',
             'exam_teo' => 'nullable|integer|between:0,100',
             'exam_prac' => 'nullable|integer|between:0,100',
-            'km_recorridos' => 'nullable|integer|min:0',
             'notas' => 'nullable|string|max:50',
-            'notas_resultado' => 'nullable|string|max:50'
-        ], [
-            'rfc_cliente.exists' => 'El RFC del alumno no existe.',
-            'rfc_emp.exists' => 'El RFC del empleado no existe.',
+            'notas_resultado' => 'nullable|string|max:50',
+        ]);
+
+        // 2. Validar disponibilidad (Manual para mejor UX)
+        $existe = Agenda::where('fecha', $validated['fecha'])
+                        ->where('hora', $validated['hora'])
+                        ->where('rfc_emp', $validated['rfc_emp'])
+                        ->exists();
+
+        if ($existe) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'El instructor ya tiene una cita en ese horario.');
+        }
+
+        // 3. Validar Pago Existente
+        $pagoExiste = Pago::where('rfc_cliente', $validated['rfc_cliente'])
+                          ->where('fecha_pago', $validated['fecha_pago'])
+                          ->exists();
+        
+        if (!$pagoExiste) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'No existe un pago registrado para este alumno en la fecha indicada.');
+        }
+
+        // 4. Crear
+        try {
+            Agenda::create($validated);
+            return redirect()->route('agenda.index')->with('success', 'Cita agendada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al guardar: ' . $e->getMessage());
+        }
+    }
+
+    // ✅ CORRECCIÓN: Ahora recibe solo $id
+    public function update(Request $request, $id)
+    {
+        // Validación
+        $validated = $request->validate([
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'actividad' => 'required|in:EXAMEN,LECCIÓN',
+            'km_recorridos' => 'nullable|integer',
+            'exam_teo' => 'nullable|integer|between:0,100',
+            'exam_prac' => 'nullable|integer|between:0,100',
+            'notas' => 'nullable|string|max:50',
+            'notas_resultado' => 'nullable|string|max:50',
+            // Si permites editar fecha_pago/cliente, agrégalos aquí
+            'fecha_pago' => 'required|date', 
+            'rfc_cliente' => 'required|exists:alumnos,rfc',
         ]);
 
         try {
-            // Verificar que exista el pago
+            // Verificar pago nuevamente si cambió fecha o cliente
             $pagoExiste = Pago::where('rfc_cliente', $validated['rfc_cliente'])
                              ->where('fecha_pago', $validated['fecha_pago'])
                              ->exists();
@@ -82,95 +118,36 @@ class AgendaController extends Controller
                     ->with('error', 'No existe un pago para este alumno en la fecha indicada.');
             }
 
-            Agenda::create($validated);
+            // ✅ Buscar por ID
+            $agenda = Agenda::findOrFail($id);
+            $agenda->update($validated);
             
             return redirect()->route('agenda.index')
-                ->with('success', 'Cita agregada correctamente.');
+                ->with('success', 'Cita actualizada correctamente.');
                 
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Error al guardar: ' . $e->getMessage());
+                ->with('error', 'Error al actualizar: ' . $e->getMessage());
         }
     }
 
-    public function edit($id)
+    // ✅ CORRECCIÓN: Ahora recibe solo $id
+    public function destroy($id)
     {
-        $agenda = Agenda::findOrFail($id);
-        
-        $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                            ->orderBy('nombre')
-                            ->get();
-        
-        $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                        ->orderBy('nombre')
-                        ->get();
-        
-        $pagos = Pago::with('alumno')
-                    ->where('rfc_cliente', $agenda->rfc_cliente)
-                    ->orderBy('fecha_pago', 'desc')
-                    ->get();
-        
-        return view('agenda.edit', compact('agenda', 'empleados', 'alumnos', 'pagos'));
-    }
-
-    public function update(Request $request, $fecha, $hora, $rfc_emp)
-{
-    $validated = $request->validate([
-        'rfc_emp' => 'required|exists:empleados,rfc',
-        'fecha' => 'required|date',
-        'hora' => 'required',
-        'rfc_cliente' => 'required|exists:alumnos,rfc',
-        'fecha_pago' => 'required|date',
-        'actividad' => 'required|in:examen,lección',
-        'exam_teo' => 'nullable|integer|between:0,100',
-        'exam_prac' => 'nullable|integer|between:0,100',
-        'km_recorridos' => 'nullable|integer|min:0',
-        'notas' => 'nullable|string|max:50',
-        'notas_resultado' => 'nullable|string|max:50'
-    ]);
-
-    try {
-        // Validación de pago
-        $pagoExiste = Pago::where('rfc_cliente', $validated['rfc_cliente'])
-                          ->where('fecha_pago', $validated['fecha_pago'])
-                          ->exists();
-        
-        if (!$pagoExiste) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'No existe un pago para este alumno en la fecha indicada.');
-        }
-
-        // Buscar el registro por CLAVE COMPUESTA
-        $agenda = Agenda::where('fecha', $fecha)
-            ->where('hora', $hora)
-            ->where('rfc_emp', $rfc_emp)
-            ->firstOrFail();
-
-        // Actualizar con los nuevos datos
-        $agenda->update($validated);
-
-        return redirect()->route('agenda.index')
-            ->with('success', 'Cita actualizada correctamente.');
+        try {
+            // ✅ Buscar por ID y eliminar
+            $agenda = Agenda::findOrFail($id);
+            $agenda->delete();
             
-    } catch (\Exception $e) {
-        return redirect()->back()
-            ->withInput()
-            ->with('error', 'Error al actualizar: ' . $e->getMessage());
+            return redirect()->route('agenda.index')
+                ->with('success', 'Cita eliminada correctamente.');
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al eliminar: ' . $e->getMessage());
+        }
     }
-}
-
-
-    public function destroy($fecha, $hora, $rfc_emp)
-{
-    Agenda::where('fecha', $fecha)
-        ->where('hora', $hora)
-        ->where('rfc_emp', $rfc_emp)
-        ->delete();
-
-    return redirect()->route('agenda.index')->with('success', 'Cita eliminada.');
-}
     
     // Método auxiliar para obtener pagos de un alumno por AJAX
     public function getPagosByAlumno($rfc)
