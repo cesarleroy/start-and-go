@@ -2,95 +2,93 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
-            <form action="{{ route('alumnos.store') }}" method="POST" id="formAgregarAlumno">
+            <form id="formEditarAlumno" method="POST">
                 @csrf
+                @method('PUT')
 
-                {{-- HEADER DEL MODAL --}}
+                {{-- HEADER --}}
                 <div class="modal-header text-white" style="background-color: #092c4c;">
-                    <h5 class="modal-title fw-bold">Agregar Nuevo Alumno</h5>
+                    <h5 class="modal-title fw-bold">Modificar Alumno</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
-                {{-- CONTENIDO --}}
+                {{-- CONTENIDo --}}
                 <div class="modal-body p-4">
-
                     <div class="row g-3">
 
-                        {{-- RFC --}}
+                        {{-- RFC (solo lectura) --}}
                         <div class="col-md-6">
-                            <label class="form-label fw-bold">RFC (mayúsculas)</label>
-                            <input type="text" name="rfc" class="form-control" required>
+                            <label class="form-label fw-bold">RFC</label>
+                            <input type="text" class="form-control" id="edit_rfc" name="rfc" readonly>
                         </div>
 
                         {{-- Nombre --}}
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Nombre(s)</label>
-                            <input type="text" name="nombre" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
                         </div>
 
                         {{-- Apellidos --}}
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Apellido Paterno</label>
-                            <input type="text" name="apellido_p" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_apellido_p" name="apellido_p" required>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Apellido Materno</label>
-                            <input type="text" name="apellido_m" class="form-control">
+                            <input type="text" class="form-control" id="edit_apellido_m" name="apellido_m">
                         </div>
 
-                        {{-- Fecha de nacimiento --}}
+                        {{-- Fecha nacimiento --}}
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Fecha de nacimiento</label>
-                            <input type="date" name="fecha_nac" class="form-control" required>
+                            <input type="date" class="form-control" id="edit_fecha_nac" name="fecha_nac" required>
                         </div>
 
                         {{-- Permiso --}}
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Permiso</label>
-                            <select name="permiso" class="form-select" required>
-                                <option value="" disabled selected>Seleccione...</option>
+                            <select class="form-select" id="edit_permiso" name="permiso" required>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
                         </div>
 
-                        {{-- Dirección --}}
+                        {{-- Sección dirección --}}
                         <div class="col-12 mt-4">
                             <h6 class="fw-bold border-bottom pb-2">Dirección</h6>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Calle</label>
-                            <input type="text" name="calle" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_calle" name="calle" required>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Número</label>
-                            <input type="text" name="numero" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_numero" name="numero" required>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Colonia</label>
-                            <input type="text" name="colonia" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_colonia" name="colonia" required>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Alcaldía</label>
-                            <input type="text" name="alcaldia" class="form-control" required>
+                            <input type="text" class="form-control" id="edit_alcaldia" name="alcaldia" required>
                         </div>
 
                         {{-- Correo y observaciones --}}
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Correo electrónico</label>
-                            <input type="email" name="correo" class="form-control">
+                            <input type="email" class="form-control" id="edit_correo" name="correo" required>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Observaciones</label>
-                            <textarea name="observaciones" class="form-control" rows="2"></textarea>
+                            <textarea class="form-control" id="edit_observaciones" name="observaciones" rows="2"></textarea>
                         </div>
-
                     </div>
                 </div>
 
@@ -98,12 +96,11 @@
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn text-white" style="background-color: #212529;">
-                        Guardar
+                        Actualizar
                     </button>
                 </div>
 
             </form>
-
         </div>
     </div>
 </div>

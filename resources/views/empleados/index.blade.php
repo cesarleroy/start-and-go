@@ -66,25 +66,24 @@
                             <tr>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-warning text-white btn-editar" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#modalModificarEmpleado"
-                                                data-rfc="{{ $empleado->rfc }}"
-                                                data-nombre="{{ $empleado->nombre }}"
-                                                data-apellido_p="{{ $empleado->apellido_p }}"
-                                                data-apellido_m="{{ $empleado->apellido_m }}"
-                                                data-puesto="{{ $empleado->puesto }}"
-                                                data-turno="{{ $empleado->turno }}"
-                                                data-sexo="{{ $empleado->sexo }}"
-                                                data-fecha="{{ $empleado->fecha_nac }}"
-                                                data-tel="{{ $empleado->tel_personal }}"
-                                                data-calle="{{ $empleado->calle }}"
-                                                data-numero="{{ $empleado->numero }}"
-                                                data-colonia="{{ $empleado->colonia }}"
-                                                data-alcaldia="{{ $empleado->alcaldia }}"
-                                                data-descansos="{{ $empleado->descansos }}">
+                                        <button class="btn btn-sm btn-warning text-white btn-editar-alumno"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEditarAlumno"
+                                            data-rfc="{{ $alumno->rfc }}"
+                                            data-nombre="{{ $alumno->nombre }}"
+                                            data-apellido_p="{{ $alumno->apellido_p }}"
+                                            data-apellido_m="{{ $alumno->apellido_m }}"
+                                            data-fecha_nac="{{ $alumno->fecha_nac }}"
+                                            data-calle="{{ $alumno->calle }}"
+                                            data-numero="{{ $alumno->numero }}"
+                                            data-colonia="{{ $alumno->colonia }}"
+                                            data-alcaldia="{{ $alumno->alcaldia }}"
+                                            data-permiso="{{ $alumno->permiso }}"
+                                            data-observaciones="{{ $alumno->observaciones }}"
+                                            data-correo="{{ $alumno->correo }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
+
 
                                         <form action="{{ route('empleados.destroy', $empleado->rfc) }}" method="POST" class="d-inline">
                                             @csrf
@@ -380,5 +379,35 @@
             });
         });
     });
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const botonesEditar = document.querySelectorAll('.btn-editar-alumno');
+
+    botonesEditar.forEach(boton => {
+        boton.addEventListener('click', function () {
+
+            // Llenar inputs
+            document.getElementById('edit_rfc').value           = this.dataset.rfc;
+            document.getElementById('edit_nombre').value        = this.dataset.nombre;
+            document.getElementById('edit_apellido_p').value    = this.dataset.apellido_p;
+            document.getElementById('edit_apellido_m').value    = this.dataset.apellido_m;
+            document.getElementById('edit_fecha_nac').value     = this.dataset.fecha_nac;
+            document.getElementById('edit_permiso').value       = this.dataset.permiso;
+            document.getElementById('edit_calle').value         = this.dataset.calle;
+            document.getElementById('edit_numero').value        = this.dataset.numero;
+            document.getElementById('edit_colonia').value       = this.dataset.colonia;
+            document.getElementById('edit_alcaldia').value      = this.dataset.alcaldia;
+            document.getElementById('edit_correo').value        = this.dataset.correo;
+            document.getElementById('edit_observaciones').value = this.dataset.observaciones;
+
+            // Actualizar la acción del formulario
+            const form = document.getElementById('formEditarAlumno');
+            form.action = `/alumnos/${this.dataset.rfc}`;
+        });
+    });
+
+});
 </script>
+
 @endsection
