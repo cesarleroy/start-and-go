@@ -73,7 +73,6 @@
                                         <button class="btn btn-sm btn-warning text-white btn-editar" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#modalModificarAgenda"
-                                                data-id="{{ $agenda->id }}"
                                                 data-rfc_emp="{{ $agenda->rfc_emp }}"
                                                 data-fecha="{{ $agenda->fecha->format('Y-m-d') }}"
                                                 data-hora="{{ $agenda->hora }}"
@@ -88,7 +87,7 @@
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('agenda.destroy', ['fecha' => $agenda->fecha->format('Y-m-d'),'hora' => $agenda->hora,'rfc_emp' => $agenda->rfc_emp,]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
@@ -357,30 +356,32 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica para llenar el Modal de Edición
-        const botonesEditar = document.querySelectorAll('.btn-editar');
-        botonesEditar.forEach(boton => {
-            boton.addEventListener('click', function() {
-                const id = this.dataset.id;
-                
-                // Llenar inputs
-                document.getElementById('edit_rfc_emp').value = this.dataset.rfc_emp;
-                document.getElementById('edit_rfc_cliente').value = this.dataset.rfc_cliente;
-                document.getElementById('edit_fecha').value = this.dataset.fecha;
-                document.getElementById('edit_hora').value = this.dataset.hora;
-                document.getElementById('edit_fecha_pago').value = this.dataset.fecha_pago;
-                document.getElementById('edit_actividad').value = this.dataset.actividad;
-                document.getElementById('edit_km').value = this.dataset.km || '';
-                document.getElementById('edit_exam_teo').value = this.dataset.exam_teo || '';
-                document.getElementById('edit_exam_prac').value = this.dataset.exam_prac || '';
-                document.getElementById('edit_notas').value = this.dataset.notas || '';
-                document.getElementById('edit_resultado').value = this.dataset.resultado || '';
-                
-                // Actualizar action del form
-                const form = document.getElementById('formEditar');
-                form.action = `/agenda/${id}`;
-            });
+
+    const botonesEditar = document.querySelectorAll('.btn-editar');
+    
+    botonesEditar.forEach(boton => {
+        boton.addEventListener('click', function() {
+
+            document.getElementById('edit_rfc_emp').value = this.dataset.rfc_emp;
+            document.getElementById('edit_rfc_cliente').value = this.dataset.rfc_cliente;
+            document.getElementById('edit_fecha').value = this.dataset.fecha;
+            document.getElementById('edit_hora').value = this.dataset.hora;
+            document.getElementById('edit_fecha_pago').value = this.dataset.fecha_pago;
+            document.getElementById('edit_actividad').value = this.dataset.actividad;
+            document.getElementById('edit_km').value = this.dataset.km || '';
+            document.getElementById('edit_exam_teo').value = this.dataset.exam_teo || '';
+            document.getElementById('edit_exam_prac').value = this.dataset.exam_prac || '';
+            document.getElementById('edit_notas').value = this.dataset.notas || '';
+            document.getElementById('edit_resultado').value = this.dataset.resultado || '';
+
+            // CORREGIDO: ruta para clave compuesta
+            const form = document.getElementById('formEditar');
+            form.action = `/agenda/${this.dataset.fecha}/${this.dataset.hora}/${this.dataset.rfc_emp}`;
         });
+    });
+
+});
+
 
         // Buscador básico en tabla
         document.getElementById('busquedaTabla').addEventListener('keyup', function() {
