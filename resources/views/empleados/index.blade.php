@@ -66,22 +66,23 @@
                             <tr>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-warning text-white btn-editar-alumno"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEditarAlumno"
-                                            data-rfc="{{ $alumno->rfc }}"
-                                            data-nombre="{{ $alumno->nombre }}"
-                                            data-apellido_p="{{ $alumno->apellido_p }}"
-                                            data-apellido_m="{{ $alumno->apellido_m }}"
-                                            data-fecha_nac="{{ $alumno->fecha_nac }}"
-                                            data-calle="{{ $alumno->calle }}"
-                                            data-numero="{{ $alumno->numero }}"
-                                            data-colonia="{{ $alumno->colonia }}"
-                                            data-alcaldia="{{ $alumno->alcaldia }}"
-                                            data-permiso="{{ $alumno->permiso }}"
-                                            data-observaciones="{{ $alumno->observaciones }}"
-                                            data-correo="{{ $alumno->correo }}">
-                                            <i class="fas fa-edit"></i>
+                                        <button class="btn btn-sm btn-warning text-white btn-editar" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#modalModificarEmpleado"
+                                                data-rfc="{{ $empleado->rfc }}"
+                                                data-nombre="{{ $empleado->nombre }}"
+                                                data-apellido_p="{{ $empleado->apellido_p }}"
+                                                data-apellido_m="{{ $empleado->apellido_m }}"
+                                                data-puesto="{{ $empleado->puesto }}"
+                                                data-turno="{{ $empleado->turno }}"
+                                                data-sexo="{{ $empleado->sexo }}"
+                                                data-fecha="{{ $empleado->fecha_nac }}"
+                                                data-tel="{{ $empleado->tel_personal }}"
+                                                data-calle="{{ $empleado->calle }}"
+                                                data-numero="{{ $empleado->numero }}"
+                                                data-colonia="{{ $empleado->colonia }}"
+                                                data-alcaldia="{{ $empleado->alcaldia }}"
+                                                data-descansos="{{ $empleado->descansos }}">
                                         </button>
 
 
