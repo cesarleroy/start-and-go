@@ -33,8 +33,8 @@ class EmpleadoController extends Controller
         Empleado::create([
             'rfc' => $request->rfc,
             'nombre' => $request->nombre,
-            'apellido_p' => $request->ap,    
-            'apellido_m' => $request->am,
+            'apellido_p' => $request->apellido_p,    
+            'apellido_m' => $request->apellido_m,
             'puesto' => $request->puesto,
             'turno' => $request->turno,
             'descansos' => $descansos,
@@ -64,8 +64,8 @@ class EmpleadoController extends Controller
 
         $empleado->update([
             'nombre' => $request->nombre,
-            'apellido_p' => $request->ap,
-            'apellido_m' => $request->am,
+            'apellido_p' => $request->apellido_p,
+            'apellido_m' => $request->apellido_m,
             'puesto' => $request->puesto,
             'turno' => $request->turno,
             'descansos' => $descansos,

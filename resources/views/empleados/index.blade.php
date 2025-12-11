@@ -71,8 +71,8 @@
                                                 data-bs-target="#modalModificarEmpleado"
                                                 data-rfc="{{ $empleado->rfc }}"
                                                 data-nombre="{{ $empleado->nombre }}"
-                                                data-ap="{{ $empleado->apellido_p }}"
-                                                data-am="{{ $empleado->apellido_m }}"
+                                                data-apellido_p="{{ $empleado->apellido_p }}"
+                                                data-apellido_m="{{ $empleado->apellido_m }}"
                                                 data-puesto="{{ $empleado->puesto }}"
                                                 data-turno="{{ $empleado->turno }}"
                                                 data-sexo="{{ $empleado->sexo }}"
@@ -273,11 +273,11 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Apellido Paterno</label>
-                            <input type="text" name="ap" id="edit_ap" class="form-control" required>
+                            <input type="text" name="apellido_p" id="edit_ap" class="form-control" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Apellido Materno</label>
-                            <input type="text" name="am" id="edit_am" class="form-control">
+                            <input type="text" name="apellido_m" id="edit_am" class="form-control">
                         </div>
 
                         <div class="col-md-6">
@@ -351,8 +351,8 @@
                 
                 // Llenar inputs
                 document.getElementById('edit_nombre').value = this.dataset.nombre;
-                document.getElementById('edit_ap').value = this.dataset.ap;
-                document.getElementById('edit_am').value = this.dataset.am;
+                document.getElementById('edit_ap').value = this.dataset.apellido_p;
+                document.getElementById('edit_am').value = this.dataset.apellido_m;
                 document.getElementById('edit_puesto').value = this.dataset.puesto;
                 document.getElementById('edit_turno').value = this.dataset.turno;
                 document.getElementById('edit_sexo').value = this.dataset.sexo;
