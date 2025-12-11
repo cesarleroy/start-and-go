@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
     // Ruta específica para eliminar (aunque resource ya la trae, la mantenemos por seguridad si la usas así)
     Route::delete('/alumnos/{alumno}', [AlumnoController::class, 'destroy'])->name('alumnos.destroy');
+    Route::post('alumnos/credencial', [AlumnoController::class, 'generarCredencial'])->name('alumnos.credencial');
 
     // --- Gestión de Agenda ---
     Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');

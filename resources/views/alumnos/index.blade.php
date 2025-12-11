@@ -88,6 +88,17 @@
                             <tr>
                                 <td>
                                     <div class="d-flex gap-2">
+    
+                                        <button class="btn btn-sm btn-info text-white d-flex align-items-center justify-content-center btn-credencial"
+                                                style="width: 30px; height: 30px;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalCredencial"
+                                                data-rfc="{{ $alumno->rfc }}"
+                                                data-nombre="{{ $alumno->nombre }} {{ $alumno->apellido_p }} {{ $alumno->apellido_m }}"
+                                                data-permiso="{{ $alumno->permiso }}"
+                                                title="Generar Credencial">
+                                            <i class="fas fa-id-card"></i>
+                                        </button>
 
                                         {{-- EDITAR --}}
                                         <button class="btn btn-sm btn-warning text-white d-flex align-items-center justify-content-center btn-editar-alumno" style="width: 30px; height: 30px;"
@@ -152,6 +163,7 @@
 </div>
 
 {{-- MODAL AGREGAR --}}
+@include('alumnos.modals.credencial')
 @include('alumnos.modals.agregar')
 @include('alumnos.modals.editar')
 
@@ -203,6 +215,28 @@ document.addEventListener('DOMContentLoaded', function() {
             // Actualizar la acción del formulario
             const form = document.getElementById('formEditarAlumno');
             form.action = `/alumnos/${this.dataset.rfc}`;
+        });
+    });
+
+    // ... dentro de tu document.addEventListener('DOMContentLoaded', ...)
+
+    // Lógica para el Modal de Credencial
+    const botonesCredencial = document.querySelectorAll('.btn-credencial');
+
+    botonesCredencial.forEach(boton => {
+        boton.addEventListener('click', function() {
+            // Obtener datos del botón
+            const rfc = this.dataset.rfc;
+            const nombre = this.dataset.nombre;
+            const permiso = this.dataset.permiso;
+
+            // Llenar la vista previa del modal
+            document.getElementById('view_nombre').textContent = nombre;
+            document.getElementById('view_rfc').textContent = rfc;
+            document.getElementById('view_permiso').textContent = permiso;
+
+            // Llenar el input oculto para enviar al controlador
+            document.getElementById('input_rfc').value = rfc;
         });
     });
 
