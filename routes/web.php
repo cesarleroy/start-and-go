@@ -67,12 +67,20 @@ Route::get('/ayuda', function () {
 
 // Rutas para Agenda
 Route::middleware(['auth'])->group(function () {
-    Route::resource('agenda', AgendaController::class);
-    
-    // Ruta adicional para obtener pagos de un alumno (opcional, para mejorar UX)
+
+    Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::post('agenda', [AgendaController::class, 'store'])->name('agenda.store');
+
+    Route::put('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'update'])
+        ->name('agenda.update');
+
+    Route::delete('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'destroy'])
+        ->name('agenda.destroy');
+
     Route::get('agenda/pagos/{rfc}', [AgendaController::class, 'getPagosByAlumno'])
         ->name('agenda.pagos');
 });
+
 
 // Rutas para Pagos
 Route::middleware(['auth'])->group(function () {

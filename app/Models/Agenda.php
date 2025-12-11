@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     protected $table = 'agenda';
-    protected $primaryKey = 'id';
-    public $incrementing = true;
+    protected $primaryKey = ['fecha','hora','rfc_emp'];
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [
