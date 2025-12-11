@@ -26,11 +26,11 @@ return new class extends Migration
 
             $table->foreign('rfc_cliente')
                   ->references('rfc')->on('alumnos')
-                  ->onUpdate('cascade')->onDelete('restrict');
+                  ->onUpdate('cascade')->onDelete('cascade');
 
             $table->foreign('tipo_contratacion')
                   ->references('tipo_contratacion')->on('contratacion')
-                  ->onUpdate('cascade')->onDelete('restrict');
+                  ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

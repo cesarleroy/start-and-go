@@ -30,8 +30,8 @@ return new class extends Migration
             // Usamos UNIQUE en lugar de PRIMARY para evitar duplicados lógicos
             $table->unique(['fecha', 'hora', 'rfc_emp']);
 
-            $table->foreign('rfc_emp')->references('rfc')->on('empleados')->onUpdate('cascade');
-            $table->foreign(['rfc_cliente', 'fecha_pago'])->references(['rfc_cliente', 'fecha_pago'])->on('pagos')->onUpdate('cascade');
+            $table->foreign('rfc_emp')->references('rfc')->on('empleados')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign(['rfc_cliente', 'fecha_pago'])->references(['rfc_cliente', 'fecha_pago'])->on('pagos')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
