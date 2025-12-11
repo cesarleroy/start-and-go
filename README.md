@@ -16,7 +16,8 @@
 ## Requisitos del Sistema
 
 **Software necesario:**
-- PHP 7.4 hacia adelante
+- Laravel 12
+- PHP 8.1 en adelante
 - MySQL Workbench 8.0 (O DBeaver en Linux)
 - Navegador moderno (Chrome, Firefox, Edge)
 - Servidor local (IIS sobre Windows recomendado o Apache en Linux)
@@ -40,7 +41,7 @@ https://youtu.be/gGcejiDVX5I?si=tGU56udGKA9jyJMU
 
 ## Tecnologías Utilizadas  
 
-- PHP: Backend, conexión a base de datos, sesiones, controladores.  
+- Laravel (PHP): Backend, conexión a base de datos, sesiones, controladores.  
 - JavaScript (JS): Comportamiento dinámico, validaciones y control de la interfaz.  
 - HTML: Estructura y contenido del sistema.  
 - CSS + Bootstrap: Diseño visual de la interfaz. 

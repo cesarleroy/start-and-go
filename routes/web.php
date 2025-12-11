@@ -51,10 +51,6 @@ Route::get('/admin-panel', function () {
     return "Bienvenido Administrador";
 })->middleware('auth');
 
-Route::resource('alumnos', AlumnoController::class);
-
-Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
-
 Route::resource('empleados', EmpleadoController::class);
 
 require __DIR__.'/auth.php';
@@ -67,12 +63,20 @@ Route::get('/ayuda', function () {
 
 // Rutas para Agenda
 Route::middleware(['auth'])->group(function () {
-    Route::resource('agenda', AgendaController::class);
-    
-    // Ruta adicional para obtener pagos de un alumno (opcional, para mejorar UX)
+
+    Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::post('agenda', [AgendaController::class, 'store'])->name('agenda.store');
+
+    Route::put('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'update'])
+        ->name('agenda.update');
+
+    Route::delete('agenda/{fecha}/{hora}/{rfc_emp}', [AgendaController::class, 'destroy'])
+        ->name('agenda.destroy');
+
     Route::get('agenda/pagos/{rfc}', [AgendaController::class, 'getPagosByAlumno'])
         ->name('agenda.pagos');
 });
+
 
 // Rutas para Pagos
 Route::middleware(['auth'])->group(function () {
@@ -90,3 +94,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pagos/precio/{tipo}', [PagosController::class, 'getPrecioContratacion'])
         ->name('pagos.precio');
 });
+
+//Rutas para alumnos
+Route::delete('/alumnos/{alumno}', [AlumnoController::class, 'destroy'])
+    ->name('alumnos.destroy');
+
+Route::resource('alumnos', AlumnoController::class);
+
+Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
