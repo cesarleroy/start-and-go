@@ -51,10 +51,6 @@ Route::get('/admin-panel', function () {
     return "Bienvenido Administrador";
 })->middleware('auth');
 
-Route::resource('alumnos', AlumnoController::class);
-
-Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
-
 Route::resource('empleados', EmpleadoController::class);
 
 require __DIR__.'/auth.php';
@@ -98,3 +94,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pagos/precio/{tipo}', [PagosController::class, 'getPrecioContratacion'])
         ->name('pagos.precio');
 });
+
+//Rutas para alumnos
+Route::delete('/alumnos/{alumno}', [AlumnoController::class, 'destroy'])
+    ->name('alumnos.destroy');
+
+Route::resource('alumnos', AlumnoController::class);
+
+Route::post('/alumnos/store', [AlumnoController::class, 'store'])->name('alumnos.store');
