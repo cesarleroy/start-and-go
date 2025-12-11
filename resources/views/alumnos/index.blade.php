@@ -153,6 +153,7 @@
 
 {{-- MODAL AGREGAR --}}
 @include('alumnos.modals.agregar')
+@include('alumnos.modals.editar')
 
 @endsection
 

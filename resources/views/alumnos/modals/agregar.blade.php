@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalEditarAlumno" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalAgregarAlumno" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
