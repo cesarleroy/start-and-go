@@ -134,7 +134,7 @@ php artisan serve
 
 ## Autores
 
-- [@Max](https://github.com/)
+- [@Max](https://github.com/PuesMax)
 - [@César](https://github.com/cesarleroy)
 - [@Osva](https://github.com/Osvadeb)
 
