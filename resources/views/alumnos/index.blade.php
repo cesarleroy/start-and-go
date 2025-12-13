@@ -177,9 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log("JS de alumnos cargado correctamente");
 
-    // ================================
-    //  BUSCADOR
-    // ================================
     const input = document.getElementById('busquedaTabla');
 
     input.addEventListener('keyup', function() {
@@ -191,9 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ================================
-    //  MODAL DE EDITAR ALUMNO
-    // ================================
     const botonesEditar = document.querySelectorAll('.btn-editar-alumno');
 
     botonesEditar.forEach(boton => {
@@ -212,30 +206,23 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit_correo').value        = this.dataset.correo;
             document.getElementById('edit_observaciones').value = this.dataset.observaciones;
 
-            // Actualizar la acción del formulario
             const form = document.getElementById('formEditarAlumno');
             form.action = `/alumnos/${this.dataset.rfc}`;
         });
     });
 
-    // ... dentro de tu document.addEventListener('DOMContentLoaded', ...)
-
-    // Lógica para el Modal de Credencial
     const botonesCredencial = document.querySelectorAll('.btn-credencial');
 
     botonesCredencial.forEach(boton => {
         boton.addEventListener('click', function() {
-            // Obtener datos del botón
             const rfc = this.dataset.rfc;
             const nombre = this.dataset.nombre;
             const permiso = this.dataset.permiso;
 
-            // Llenar la vista previa del modal
             document.getElementById('view_nombre').textContent = nombre;
             document.getElementById('view_rfc').textContent = rfc;
             document.getElementById('view_permiso').textContent = permiso;
 
-            // Llenar el input oculto para enviar al controlador
             document.getElementById('input_rfc').value = rfc;
         });
     });

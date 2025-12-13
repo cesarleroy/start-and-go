@@ -66,7 +66,7 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Número</label>
-                            <input type="text" class="form-control" id="edit_numero" name="numero" required>
+                            <input type="number" class="form-control" id="edit_numero" name="numero" min="0" max="999" required>
                         </div>
 
                         <div class="col-md-6">

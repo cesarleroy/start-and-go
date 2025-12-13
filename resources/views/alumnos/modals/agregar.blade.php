@@ -67,7 +67,7 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Número</label>
-                            <input type="text" name="numero" class="form-control" required>
+                            <input type="number" name="numero" class="form-control" min="0" max="999" required>
                         </div>
 
                         <div class="col-md-6">

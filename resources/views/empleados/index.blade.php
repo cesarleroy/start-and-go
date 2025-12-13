@@ -159,7 +159,13 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Puesto</label>
-                            <input type="text" name="puesto" class="form-control" required>
+                            <select name="puesto" class="form-select" required>
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="RECEPCIONISTA">RECEPCIONISTA</option>
+                                <option value="INSTRUCTOR">INSTRUCTOR</option>
+                                <option value="LIMPIEZA">LIMPIEZA</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Turno</label>
@@ -231,8 +237,8 @@
                             <input type="text" name="calle" class="form-control" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Número</label>
-                            <input type="text" name="numero" class="form-control" required>
+                            <label class="form-label fw-bold">Número Ext.</label>
+                            <input type="number" name="numero" class="form-control" min="0" max="999" required>
                         </div>
 
                         <div class="col-md-6">
@@ -283,7 +289,13 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Puesto</label>
-                            <input type="text" name="puesto" id="edit_puesto" class="form-control" required>
+                            <select name="puesto" id="edit_puesto" class="form-control" required>
+                            <option value="" disabled selected>Seleccione...</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="RECEPCIONISTA">RECEPCIONISTA</option>
+                                <option value="INSTRUCTOR">INSTRUCTOR</option>
+                                <option value="LIMPIEZA">LIMPIEZA</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Turno</label>
@@ -324,9 +336,8 @@
                         </div>
 
                         <div class="col-12 mt-4"><h6 class="fw-bold border-bottom pb-2">Dirección</h6></div>
-
                         <div class="col-md-8"><label class="form-label fw-bold">Calle</label><input type="text" name="calle" id="edit_calle" class="form-control"></div>
-                        <div class="col-md-4"><label class="form-label fw-bold">Número</label><input type="text" name="numero" id="edit_numero" class="form-control"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">Número</label><input type="number" name="numero" id="edit_numero" class="form-control" min="0" max="999" required></div>
                         <div class="col-md-6"><label class="form-label fw-bold">Colonia</label><input type="text" name="colonia" id="edit_colonia" class="form-control"></div>
                         <div class="col-md-6"><label class="form-label fw-bold">Alcaldía</label><input type="text" name="alcaldia" id="edit_alcaldia" class="form-control"></div>
                     </div>
@@ -343,14 +354,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica para llenar el Modal de Edición
-        const botonesEditar = document.querySelectorAll('.btn-editar');
+        const botonesEditar = document.querySelectorAll('.btn-editar-empleado');
         botonesEditar.forEach(boton => {
             boton.addEventListener('click', function() {
-                // Obtener datos del botón (data-attributes)
                 const rfc = this.dataset.rfc;
                 
-                // Llenar inputs
                 document.getElementById('edit_nombre').value = this.dataset.nombre;
                 document.getElementById('edit_ap').value = this.dataset.apellido_p;
                 document.getElementById('edit_am').value = this.dataset.apellido_m;
@@ -364,13 +372,11 @@
                 document.getElementById('edit_colonia').value = this.dataset.colonia;
                 document.getElementById('edit_alcaldia').value = this.dataset.alcaldia;
                 
-                // Actualizar action del form
                 const form = document.getElementById('formEditar');
                 form.action = `/empleados/${rfc}`;
             });
         });
 
-        // Buscador básico en tabla
         document.getElementById('busquedaTabla').addEventListener('keyup', function() {
             let searchText = this.value.toLowerCase();
             let tableRows = document.querySelectorAll('tbody tr');
@@ -381,35 +387,6 @@
             });
         });
     });
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const botonesEditar = document.querySelectorAll('.btn-editar-alumno');
-
-    botonesEditar.forEach(boton => {
-        boton.addEventListener('click', function () {
-
-            // Llenar inputs
-            document.getElementById('edit_rfc').value           = this.dataset.rfc;
-            document.getElementById('edit_nombre').value        = this.dataset.nombre;
-            document.getElementById('edit_apellido_p').value    = this.dataset.apellido_p;
-            document.getElementById('edit_apellido_m').value    = this.dataset.apellido_m;
-            document.getElementById('edit_fecha_nac').value     = this.dataset.fecha_nac;
-            document.getElementById('edit_permiso').value       = this.dataset.permiso;
-            document.getElementById('edit_calle').value         = this.dataset.calle;
-            document.getElementById('edit_numero').value        = this.dataset.numero;
-            document.getElementById('edit_colonia').value       = this.dataset.colonia;
-            document.getElementById('edit_alcaldia').value      = this.dataset.alcaldia;
-            document.getElementById('edit_correo').value        = this.dataset.correo;
-            document.getElementById('edit_observaciones').value = this.dataset.observaciones;
-
-            // Actualizar la acción del formulario
-            const form = document.getElementById('formEditarAlumno');
-            form.action = `/alumnos/${this.dataset.rfc}`;
-        });
-    });
-
-});
 </script>
 
 @endsection
