@@ -73,7 +73,6 @@
                                       <button class="btn btn-sm btn-warning text-white btn-editar" 
                                               data-bs-toggle="modal" 
                                               data-bs-target="#modalModificarAgenda"
-                                              data-id="{{ $agenda->id }}" 
                                               data-rfc_emp="{{ $agenda->rfc_emp }}"
                                               data-fecha="{{ optional($agenda->fecha)->format('Y-m-d') }}"
                                               data-hora="{{ $agenda->hora }}"
@@ -88,7 +87,9 @@
                                           <i class="fas fa-edit"></i>
                                       </button>
 
-                                      <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" class="d-inline">
+                                      <form action="{{ route('agenda.destroy', 'fecha' => $agenda->fecha->format('Y-m-d'),
+    'hora' => $agenda->hora,
+    'rfc_emp' => $agenda->rfc_emp,) }}" method="POST" class="d-inline">
                                           @csrf
                                           @method('DELETE')
                                           <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
