@@ -13,7 +13,7 @@
                 </div>
 
                 {{-- CONTENIDo --}}
-                <div class="modal-body p-4">
+                <div class="modal-body p-4 bg-[#fff] dark:bg-slate-700">
                     <div class="row g-3">
 
                         {{-- RFC (solo lectura) --}}
@@ -93,7 +93,7 @@
                 </div>
 
                 {{-- FOOTER --}}
-                <div class="modal-footer bg-light">
+                <div class="modal-footer bg-[#fff] dark:bg-[#092c4c]">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn text-white" style="background-color: #212529;">
                         Actualizar

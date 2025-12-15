@@ -1,32 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid p-4 min-h-[calc(100vh-80px)]">
+<div class="container-fluid p-4 min-h-[calc(100vh-80px)] relative">
     
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+    {{-- ALERTAS --}}
+    @if(session('success')) <div class="alert alert-success alert-dismissible fade show">{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div> @endif
+    @if($errors->any()) <div class="alert alert-danger alert-dismissible fade show"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div> @endif
 
     <div class="welcome mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -36,8 +15,8 @@
         <div class="card shadow border-0">
             <div class="card-header bg-white py-3">
                 <div class="row align-items-center">
-                    <div class="col-md-6 mb-2 mb-md-0">
-                        <input type="text" id="busquedaTabla" class="form-control" placeholder="Búsqueda general en la tabla...">
+                    <div class="col-md-6">
+                        <input type="text" id="busquedaTabla" class="form-control" placeholder="Buscar en la tabla...">
                     </div>
                     <div class="col-md-6 text-end">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarAgenda">
@@ -52,7 +31,7 @@
                     <table class="table table-striped table-hover align-middle mb-0" style="width: 100%; white-space: nowrap;">
                         <thead class="text-white" style="background-color: #0d1b2a;">
                             <tr>
-                                <th>Acciones</th>
+                                <th class="text-center" style="width: 50px;"><i class="fas fa-check-circle"></i></th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Empleado</th>
@@ -67,58 +46,30 @@
                         </thead>
                         <tbody>
                             @forelse($agendas as $agenda)
-                            <tr>
-                                <td>
-                                  <div class="d-flex gap-2">
-                                      <button class="btn btn-sm btn-warning text-white btn-editar" 
-                                              data-bs-toggle="modal" 
-                                              data-bs-target="#modalModificarAgenda"
-                                              data-rfc_emp="{{ $agenda->rfc_emp }}"
-                                              data-fecha="{{ optional($agenda->fecha)->format('Y-m-d') }}"
-                                              data-hora="{{ $agenda->hora }}"
-                                              data-rfc_cliente="{{ $agenda->rfc_cliente }}"
-                                              data-fecha_pago="{{ optional($agenda->fecha_pago)->format('Y-m-d') }}"
-                                              data-actividad="{{ $agenda->actividad }}"
-                                              data-km="{{ $agenda->km_recorridos }}"
-                                              data-exam_teo="{{ $agenda->exam_teo }}"
-                                              data-exam_prac="{{ $agenda->exam_prac }}"
-                                              data-notas="{{ $agenda->notas }}"
-                                              data-resultado="{{ $agenda->notas_resultado }}">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-
-                                      <form action="{{ route('agenda.destroy', 'fecha' => $agenda->fecha->format('Y-m-d'),
-    'hora' => $agenda->hora,
-    'rfc_emp' => $agenda->rfc_emp,) }}" method="POST" class="d-inline">
-                                          @csrf
-                                          @method('DELETE')
-                                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
-                                              <i class="fas fa-trash"></i>
-                                          </button>
-                                      </form>
-                                  </div>
-                              </td>
-
+                            <tr class="cursor-pointer row-selectable">
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input row-checkbox"
+                                        value="{{ $agenda->id }}"
+                                        data-id="{{ $agenda->id }}"
+                                        data-rfc_emp="{{ $agenda->rfc_emp }}"
+                                        data-fecha="{{ optional($agenda->fecha)->format('Y-m-d') }}"
+                                        data-hora="{{ $agenda->hora }}"
+                                        data-rfc_cliente="{{ $agenda->rfc_cliente }}"
+                                        data-fecha_pago="{{ optional($agenda->fecha_pago)->format('Y-m-d') }}"
+                                        data-actividad="{{ $agenda->actividad }}"
+                                        data-km="{{ $agenda->km_recorridos }}"
+                                        data-exam_teo="{{ $agenda->exam_teo }}"
+                                        data-exam_prac="{{ $agenda->exam_prac }}"
+                                        data-notas="{{ $agenda->notas }}"
+                                        data-resultado="{{ $agenda->notas_resultado }}"
+                                    >
+                                </td>
                                 <td>{{ $agenda->fecha->format('d/m/Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($agenda->hora)->format('H:i') }}</td>
+                                <td>{{ $agenda->empleado ? $agenda->empleado->nombre_completo : 'No asignado' }}</td>
+                                <td>{{ $agenda->alumno ? $agenda->alumno->nombre_completo : 'No asignado' }}</td>
                                 <td>
-                                    @if($agenda->empleado)
-                                        {{ $agenda->empleado->nombre_completo }}
-                                    @else
-                                        <span class="text-muted">No asignado</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($agenda->alumno)
-                                        {{ $agenda->alumno->nombre_completo }}
-                                    @else
-                                        <span class="text-muted">No asignado</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <span class="badge {{ $agenda->actividad == 'EXAMEN' ? 'bg-danger' : 'bg-primary' }}">
-                                        {{ $agenda->actividad }}
-                                    </span>
+                                    <span class="badge {{ $agenda->actividad == 'EXAMEN' ? 'bg-danger' : 'bg-primary' }}">{{ $agenda->actividad }}</span>
                                 </td>
                                 <td>{{ $agenda->km_recorridos ?? '-' }}</td>
                                 <td>{{ $agenda->exam_teo ?? '-' }}</td>
@@ -127,11 +78,7 @@
                                 <td><small>{{ $agenda->notas_resultado ?? '-' }}</small></td>
                             </tr>
                             @empty
-                            <tr>
-                                <td colspan="11" class="text-center py-5 bg-light">
-                                    <h5 class="text-muted">No hay citas registradas.</h5>
-                                </td>
-                            </tr>
+                            <tr><td colspan="11" class="text-center py-5 bg-light"><h5 class="text-muted">No hay citas registradas.</h5></td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -139,9 +86,21 @@
             </div>
         </div>
     </div>
+    
+    {{-- MENÚ FLOTANTE --}}
+    <div id="floating-actions" class="position-fixed bottom-0 end-0 m-4 p-3 bg-[#fff] dark:bg-gray-800 shadow-lg rounded-pill d-none align-items-center gap-3 z-50 border border-gray-200 dark:border-gray-700">
+        <span class="fw-bold text-gray-700 dark:text-gray-200 ps-2">Cita seleccionada</span>
+        <button id="btn-float-edit" class="btn btn-warning text-white btn-sm rounded-circle shadow-sm" style="width: 40px; height: 40px;" title="Editar" data-bs-toggle="modal" data-bs-target="#modalModificarAgenda">
+            <i class="fas fa-edit"></i>
+        </button>
+        <button id="btn-float-delete" class="btn btn-danger btn-sm rounded-circle shadow-sm" style="width: 40px; height: 40px;" title="Eliminar" data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminar">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+
 </div>
 
-<!-- Modal Agregar -->
+{{-- MODAL AGREGAR --}}
 <div class="modal fade" id="modalAgregarAgenda" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -151,96 +110,22 @@
                     <h5 class="modal-title fw-bold">Agregar Nueva Cita</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                
-                <div class="modal-body p-4">
+                <div class="modal-body p-4 bg-[#fff] dark:bg-slate-700">
                     <div class="row g-3">
-                        <!-- Empleado -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Empleado (Instructor)</label>
-                            <select name="rfc_emp" class="form-select" required>
-                                <option value="" disabled selected>Seleccione un empleado...</option>
-                                @foreach($empleados as $emp)
-                                    <option value="{{ $emp->rfc }}">
-                                        {{ $emp->nombre_completo }} - {{ $emp->rfc }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Alumno -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Alumno</label>
-                            <select name="rfc_cliente" id="select_alumno" class="form-select" required>
-                                <option value="" disabled selected>Seleccione un alumno...</option>
-                                @foreach($alumnos as $alumno)
-                                    <option value="{{ $alumno->rfc }}">
-                                        {{ $alumno->nombre_completo }} - {{ $alumno->rfc }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Fecha -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Fecha de la Cita</label>
-                            <input type="date" name="fecha" class="form-control" required>
-                        </div>
-
-                        <!-- Hora -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Hora</label>
-                            <input type="time" name="hora" class="form-control" required>
-                        </div>
-
-                        <!-- Fecha Pago -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Fecha de Pago</label>
-                            <input type="date" name="fecha_pago" class="form-control" required>
-                        </div>
-
-                        <!-- Actividad -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Actividad</label>
-                            <select name="actividad" class="form-select" required>
-                                <option value="" disabled selected>Seleccione...</option>
-                                <option value="LECCIÓN">LECCIÓN</option>
-                                <option value="EXAMEN">EXAMEN</option>
-                            </select>
-                        </div>
-
-                        <!-- KM Recorridos -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">KM Recorridos</label>
-                            <input type="number" name="km_recorridos" class="form-control" min="0">
-                        </div>
-
-                        <!-- Examen Teórico -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Examen Teórico (0-100)</label>
-                            <input type="number" name="exam_teo" class="form-control" min="0" max="100">
-                        </div>
-
-                        <!-- Examen Práctico -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Examen Práctico (0-100)</label>
-                            <input type="number" name="exam_prac" class="form-control" min="0" max="100">
-                        </div>
-
-                        <!-- Notas -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Notas</label>
-                            <textarea name="notas" class="form-control" rows="2" maxlength="50"></textarea>
-                        </div>
-
-                        <!-- Notas Resultado -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Notas de Resultado</label>
-                            <textarea name="notas_resultado" class="form-control" rows="2" maxlength="50"></textarea>
-                        </div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Empleado</label><select name="rfc_emp" class="form-select" required>@foreach($empleados as $emp)<option value="{{ $emp->rfc }}">{{ $emp->nombre_completo }}</option>@endforeach</select></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Alumno</label><select name="rfc_cliente" class="form-select" required>@foreach($alumnos as $alumno)<option value="{{ $alumno->rfc }}">{{ $alumno->nombre_completo }}</option>@endforeach</select></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Fecha</label><input type="date" name="fecha" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Hora</label><input type="time" name="hora" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Fecha Pago</label><input type="date" name="fecha_pago" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Actividad</label><select name="actividad" class="form-select" required><option value="LECCIÓN">LECCIÓN</option><option value="EXAMEN">EXAMEN</option></select></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">KM Recorridos</label><input type="number" name="km_recorridos" class="form-control"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">Examen Teórico</label><input type="number" name="exam_teo" class="form-control" max="100"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">Examen Práctico</label><input type="number" name="exam_prac" class="form-control" max="100"></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Notas</label><textarea name="notas" class="form-control"></textarea></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Notas Resultado</label><textarea name="notas_resultado" class="form-control"></textarea></div>
                     </div>
                 </div>
-
-                <div class="modal-footer bg-light">
+                <div class="modal-footer bg-[#fff] dark:bg-[#092c4c]">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn text-white" style="background-color: #212529;">Guardar</button>
                 </div>
@@ -249,7 +134,7 @@
     </div>
 </div>
 
-<!-- Modal Modificar -->
+{{-- MODAL MODIFICAR --}}
 <div class="modal fade" id="modalModificarAgenda" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -260,95 +145,22 @@
                     <h5 class="modal-title fw-bold">Modificar Cita</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                
-                <div class="modal-body p-4">
+                <div class="modal-body p-4 bg-[#fff] dark:bg-slate-700">
                     <div class="row g-3">
-                        <!-- Empleado -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Empleado (Instructor)</label>
-                            <select name="rfc_emp" id="edit_rfc_emp" class="form-select" required>
-                                <option value="">Seleccione...</option>
-                                @foreach($empleados as $emp)
-                                    <option value="{{ $emp->rfc }}">
-                                        {{ $emp->nombre_completo }} - {{ $emp->rfc }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Alumno -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Alumno</label>
-                            <select name="rfc_cliente" id="edit_rfc_cliente" class="form-select" required>
-                                <option value="">Seleccione...</option>
-                                @foreach($alumnos as $alumno)
-                                    <option value="{{ $alumno->rfc }}">
-                                        {{ $alumno->nombre_completo }} - {{ $alumno->rfc }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Fecha -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Fecha de la Cita</label>
-                            <input type="date" name="fecha" id="edit_fecha" class="form-control" required>
-                        </div>
-
-                        <!-- Hora -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Hora</label>
-                            <input type="time" name="hora" id="edit_hora" class="form-control" required>
-                        </div>
-
-                        <!-- Fecha Pago -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Fecha de Pago</label>
-                            <input type="date" name="fecha_pago" id="edit_fecha_pago" class="form-control" required>
-                        </div>
-
-                        <!-- Actividad -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Actividad</label>
-                            <select name="actividad" id="edit_actividad" class="form-select" required>
-                                <option value="LECCIÓN">LECCIÓN</option>
-                                <option value="EXAMEN">EXAMEN</option>
-                            </select>
-                        </div>
-
-                        <!-- KM Recorridos -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">KM Recorridos</label>
-                            <input type="number" name="km_recorridos" id="edit_km" class="form-control" min="0">
-                        </div>
-
-                        <!-- Examen Teórico -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Examen Teórico</label>
-                            <input type="number" name="exam_teo" id="edit_exam_teo" class="form-control" min="0" max="100">
-                        </div>
-
-                        <!-- Examen Práctico -->
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Examen Práctico</label>
-                            <input type="number" name="exam_prac" id="edit_exam_prac" class="form-control" min="0" max="100">
-                        </div>
-
-                        <!-- Notas -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Notas</label>
-                            <textarea name="notas" id="edit_notas" class="form-control" rows="2" maxlength="50"></textarea>
-                        </div>
-
-                        <!-- Notas Resultado -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Notas de Resultado</label>
-                            <textarea name="notas_resultado" id="edit_resultado" class="form-control" rows="2" maxlength="50"></textarea>
-                        </div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Empleado</label><select name="rfc_emp" id="edit_rfc_emp" class="form-select" required>@foreach($empleados as $emp)<option value="{{ $emp->rfc }}">{{ $emp->nombre_completo }}</option>@endforeach</select></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Alumno</label><select name="rfc_cliente" id="edit_rfc_cliente" class="form-select" required>@foreach($alumnos as $alumno)<option value="{{ $alumno->rfc }}">{{ $alumno->nombre_completo }}</option>@endforeach</select></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Fecha</label><input type="date" name="fecha" id="edit_fecha" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Hora</label><input type="time" name="hora" id="edit_hora" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Fecha Pago</label><input type="date" name="fecha_pago" id="edit_fecha_pago" class="form-control" required></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Actividad</label><select name="actividad" id="edit_actividad" class="form-select" required><option value="LECCIÓN">LECCIÓN</option><option value="EXAMEN">EXAMEN</option></select></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">KM Recorridos</label><input type="number" name="km_recorridos" id="edit_km" class="form-control"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">Examen Teórico</label><input type="number" name="exam_teo" id="edit_exam_teo" class="form-control" max="100"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold">Examen Práctico</label><input type="number" name="exam_prac" id="edit_exam_prac" class="form-control" max="100"></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Notas</label><textarea name="notas" id="edit_notas" class="form-control"></textarea></div>
+                        <div class="col-md-6"><label class="form-label fw-bold">Notas Resultado</label><textarea name="notas_resultado" id="edit_resultado" class="form-control"></textarea></div>
                     </div>
                 </div>
-
-                <div class="modal-footer bg-light">
+                <div class="modal-footer bg-[#fff] dark:bg-[#092c4c]">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn text-white" style="background-color: #212529;">Actualizar</button>
                 </div>
@@ -357,42 +169,77 @@
     </div>
 </div>
 
+{{-- MODAL CONFIRMAR ELIMINAR --}}
+<div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <form id="formEliminar" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 text-center bg-[#fff] dark:bg-slate-700">
+                    <div class="mb-3 text-danger display-4"><i class="fas fa-trash-alt"></i></div>
+                    <h5 class="mb-3 font-bold text-gray-800 dark:text-gray-200">¿Estás seguro de eliminar esta cita?</h5>
+                    <p class="text-[#000] dark:text-gray-200">Esta acción borrará la cita de la agenda de forma permanente.</p>
+                </div>
+                <div class="modal-footer bg-[#fff] dark:bg-slate-500 justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger px-4">Sí, Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica para el botón Editar
-        const botonesEditar = document.querySelectorAll('.btn-editar');
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        const floatingActions = document.getElementById('floating-actions');
         
-        botonesEditar.forEach(boton => {
-            boton.addEventListener('click', function() {
-                // 1. Obtener el ID del botón
-                const id = this.dataset.id; 
+        function handleSelection(checkboxClicked) {
+            if (checkboxClicked.checked) {
+                checkboxes.forEach(cb => {
+                    if (cb !== checkboxClicked) cb.checked = false;
+                });
+            }
 
-                // 2. Llenar los campos del modal
-                document.getElementById('edit_rfc_emp').value = this.dataset.rfc_emp;
-                document.getElementById('edit_rfc_cliente').value = this.dataset.rfc_cliente;
-                document.getElementById('edit_fecha').value = this.dataset.fecha;
-                document.getElementById('edit_hora').value = this.dataset.hora;
-                document.getElementById('edit_fecha_pago').value = this.dataset.fecha_pago;
-                document.getElementById('edit_actividad').value = this.dataset.actividad;
-                document.getElementById('edit_km').value = this.dataset.km || '';
-                document.getElementById('edit_exam_teo').value = this.dataset.exam_teo || '';
-                document.getElementById('edit_exam_prac').value = this.dataset.exam_prac || '';
-                document.getElementById('edit_notas').value = this.dataset.notas || '';
-                document.getElementById('edit_resultado').value = this.dataset.resultado || '';
+            const selected = document.querySelector('.row-checkbox:checked');
 
-                const form = document.getElementById('formEditar');
-                form.action = `/agenda/${id}`; 
-            });
-        });
+            if (selected) {
+                floatingActions.classList.remove('d-none');
+                floatingActions.classList.add('d-flex');
+                
+                const el = selected;
+                document.getElementById('edit_rfc_emp').value = el.dataset.rfc_emp;
+                document.getElementById('edit_rfc_cliente').value = el.dataset.rfc_cliente;
+                document.getElementById('edit_fecha').value = el.dataset.fecha;
+                document.getElementById('edit_hora').value = el.dataset.hora;
+                document.getElementById('edit_fecha_pago').value = el.dataset.fecha_pago;
+                document.getElementById('edit_actividad').value = el.dataset.actividad;
+                document.getElementById('edit_km').value = el.dataset.km;
+                document.getElementById('edit_exam_teo').value = el.dataset.exam_teo;
+                document.getElementById('edit_exam_prac').value = el.dataset.exam_prac;
+                document.getElementById('edit_notas').value = el.dataset.notas;
+                document.getElementById('edit_resultado').value = el.dataset.resultado;
 
-        // Buscador básico (se queda igual)
+                document.getElementById('formEditar').action = `/agenda/${el.dataset.id}`;
+                document.getElementById('formEliminar').action = `/agenda/${el.dataset.id}`;
+
+            } else {
+                floatingActions.classList.add('d-none');
+                floatingActions.classList.remove('d-flex');
+            }
+        }
+
+        checkboxes.forEach(cb => cb.addEventListener('change', function() { handleSelection(this); }));
+
         document.getElementById('busquedaTabla').addEventListener('keyup', function() {
             let searchText = this.value.toLowerCase();
-            let tableRows = document.querySelectorAll('tbody tr');
-            
-            tableRows.forEach(row => {
-                let rowText = row.innerText.toLowerCase();
-                row.style.display = rowText.includes(searchText) ? '' : 'none';
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(searchText) ? '' : 'none';
             });
         });
     });

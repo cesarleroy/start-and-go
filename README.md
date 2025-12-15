@@ -127,10 +127,28 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
+o si ya las tienes listas
+
+
+
 8. Correr la app
 ```bash
 php artisan serve
 ```
+
+> [!IMPORTANT]
+> Tambien puedes ejecutar el script de powershell que ya realice lo anterior (a excepcion de los ajusten en los parámetros del servidor en el `.env`)
+> Ejecuta primero la siguiente politíca en una nueva terminal de PowerShell en modo Administrador.
+
+```Powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+```
+
+> Ahora si, ejecuta el script
+```Powershell
+./jarbis_correte_el_server_en_fa.ps1
+```
+
 
 ## Autores
 

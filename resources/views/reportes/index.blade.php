@@ -7,10 +7,10 @@
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-body">
+        <div class="card-body bg-[#fff] dark:bg-gray-800">
             <form action="{{ route('reportes.estado_cuenta') }}" method="GET" class="row g-3 align-items-end" target="_blank">
                 <div class="col-md-4">
-                    <label for="mes" class="form-label">Selecciona el Mes</label>
+                    <label for="mes" class="form-label text-gray-900 dark:text-gray-300">Selecciona el Mes</label>
                     <input type="month" id="mes" name="mes" class="form-control" required>
                 </div>
                 <div class="col-md-4">
@@ -23,14 +23,14 @@
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-body">
+        <div class="card-body bg-[#fff] dark:bg-gray-800">
             <form id="filtrosReporte" class="row g-3" method="GET" action="{{ route('reportes.index') }}">
-                <div class="col-md-4">
+                <div class="col-md-4 text-gray-900 dark:text-gray-300">
                     <label for="fechaInicio" class="form-label">Fecha Inicio</label>
                     <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" 
                            value="{{ $fechaInicio }}">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-gray-900 dark:text-gray-300">
                     <label for="fechaFin" class="form-label">Fecha Fin</label>
                     <input type="date" id="fechaFin" name="fechaFin" class="form-control" 
                            value="{{ $fechaFin }}">
@@ -45,10 +45,10 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header encabezado-custom">
-                    <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Clases por Día</h5>
+        <div class="col-md-6 mb-4 ">
+            <div class="card shadow h-100 ">
+                <div class="card-header encabezado-custom bg-[#fff] dark:bg-gray-800">
+                    <h5 class="mb-0 text-gray-900 dark:text-[#fff]"><i class="fas fa-calendar-alt me-2"></i>Clases por Día</h5>
                 </div>
                 <div class="card-body">
                     <div class="chart-container" style="position: relative; height:40vh;">
@@ -59,8 +59,8 @@
         </div>
         <div class="col-md-6 mb-4">
             <div class="card shadow h-100">
-                <div class="card-header encabezado-custom">
-                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Resultados de Exámenes</h5>
+                <div class="card-header encabezado-custom bg-[#fff] dark:bg-gray-800">
+                    <h5 class="mb-0 text-gray-900 dark:text-[#fff]"><i class="fas fa-chart-pie me-2"></i>Resultados de Exámenes</h5>
                 </div>
                 <div class="card-body">
                     <div class="chart-container" style="position: relative; height:40vh;">
@@ -72,8 +72,8 @@
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-header encabezado-custom">
-            <h5 class="mb-0"><i class="fas fa-user-tie me-2"></i>Instructores con más clases</h5>
+        <div class="card-header encabezado-custom bg-[#fff] dark:bg-gray-800">
+            <h5 class="mb-0 text-gray-900 dark:text-[#fff]"><i class="fas fa-user-tie me-2"></i>Instructores con más clases</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">

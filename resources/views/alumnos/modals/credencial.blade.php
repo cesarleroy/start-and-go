@@ -10,7 +10,7 @@
             
             <form action="{{ route('alumnos.credencial') }}" method="POST" enctype="multipart/form-data" target="_blank">
                 @csrf
-                <div class="modal-body">
+                <div class="modal-body p-4 bg-[#fff] dark:bg-slate-700">
                     
                     <div class="alert alert-light border text-center mb-4">
                         <h5 class="fw-bold text-dark mb-1" id="view_nombre">Nombre del Alumno</h5>
@@ -23,13 +23,13 @@
                     <div class="mb-3">
                         <label for="foto" class="form-label fw-bold">Fotografía del Alumno</label>
                         <input type="file" class="form-control" name="foto" accept="image/jpeg,image/png,image/jpg">
-                        <div class="form-text text-muted">
+                        <div class="form-text dark:text-[#fff]">
                             <i class="fas fa-info-circle"></i> Sube una foto para que aparezca en la credencial. Si no subes ninguna, se usará la anterior o una genérica.
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-[#fff] dark:bg-slate-500">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-info text-white fw-bold">
                         <i class="fas fa-file-pdf me-2"></i> Generar PDF

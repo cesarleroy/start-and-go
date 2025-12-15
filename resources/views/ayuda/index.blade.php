@@ -9,7 +9,7 @@
         </div>
 
         {{-- Introducción --}}
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
+        <div class="bg-[#fff] dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
             <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">¿Cómo usar el sistema?</h3>
             <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
                 <strong>Start & Go</strong> es un sistema diseñado para optimizar la operación y administración 
@@ -20,7 +20,7 @@
         </div>
 
         {{-- FAQ Administradores --}}
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-700" x-data="{ openQuestion: null }">
+        <div class="bg-[#fff] dark:bg-gray-800 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-700" x-data="{ openQuestion: null }">
             <div class="bg-gradient-to-r from-sky-500 to-sky-600 rounded-t-lg px-6 py-4">
                 <h3 class="text-2xl font-bold text-white flex items-center">
                     <i class="fas fa-user-shield mr-3"></i>
@@ -46,7 +46,7 @@
                          x-transition:leave="transition ease-in duration-200"
                          x-transition:leave-start="opacity-100 transform translate-y-0"
                          x-transition:leave-end="opacity-0 transform -translate-y-2"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400 mb-3">
                             Para gestionar correctamente a los empleados de la empresa, es necesario iniciar sesión con un usuario con privilegios de administrador. Una vez dentro del sistema, dirígete al apartado de <strong class="text-sky-600 dark:text-sky-400">"Empleados"</strong> desde el menú principal. Dentro podrás:
                         </p>
@@ -81,7 +81,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             Sí, es posible realizar modificaciones en todos los registros del sistema. Para hacerlo, debes seleccionar el registro que deseas actualizar, hacer clic en el botón de editar (ícono de lápiz amarillo), realizar los cambios necesarios y luego presionar guardar cambios.
                         </p>
@@ -102,7 +102,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             El sistema está diseñado para ser responsivo y funcionar correctamente en todo tipo de dispositivos y navegadores. Sin embargo, recomendamos utilizar Google Chrome para garantizar una mejor experiencia de uso.
                         </p>
@@ -123,7 +123,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             La búsqueda en las tablas funciona filtrando en tiempo real los datos que coinciden con las palabras ingresadas en el campo de búsqueda ubicado en la parte superior de cada tabla.
                         </p>
@@ -144,7 +144,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             Para generar un archivo con los estados de cuenta, debes ingresar a la sección de reportes, seleccionar el mes del que deseas obtener el documento y hacer clic en el botón de generar reporte.
                         </p>
@@ -165,7 +165,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400 mb-3">
                             Accede al módulo de <strong class="text-sky-600 dark:text-sky-400">"Pagos"</strong> desde el menú principal. Aquí podrás:
                         </p>
@@ -204,7 +204,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400 mb-3">
                             Utiliza el módulo de <strong class="text-sky-600 dark:text-sky-400">"Agenda"</strong> para:
                         </p>
@@ -237,7 +237,7 @@
         </div>
 
         {{-- FAQ Recepcionistas --}}
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-700" x-data="{ openQuestionRecep: null }">
+        <div class="bg-[#fff] dark:bg-gray-800 rounded-lg shadow-lg mb-6 border border-gray-200 dark:border-gray-700" x-data="{ openQuestionRecep: null }">
             <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-t-lg px-6 py-4">
                 <h3 class="text-2xl font-bold text-white flex items-center">
                     <i class="fas fa-user-tag mr-3"></i>
@@ -260,7 +260,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             Para actualizar el tipo de contratación, ve al módulo de <strong class="text-purple-600 dark:text-purple-400">"Pagos"</strong>, selecciona el registro del pago correspondiente, haz clic en editar (ícono amarillo), modifica el tipo de contratación y guarda los cambios.
                         </p>
@@ -281,7 +281,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             Ve al módulo de <strong class="text-purple-600 dark:text-purple-400">"Agenda"</strong>, busca la cita del examen, edita el registro y deja una anotación en el campo de <strong class="text-purple-600 dark:text-purple-400">"Notas"</strong> indicando que el alumno no se presentó. Esto facilita el seguimiento posterior.
                         </p>
@@ -302,7 +302,7 @@
                          x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform -translate-y-2"
                          x-transition:enter-end="opacity-100 transform translate-y-0"
-                         class="px-6 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
+                         class="px-6 py-4 bg-[#fff] dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600">
                         <p class="text-gray-600 dark:text-gray-400">
                             Accede al módulo de <strong class="text-purple-600 dark:text-purple-400">"Alumnos"</strong>, haz clic en el botón "Nuevo Alumno", llena todos los campos requeridos (RFC, nombre completo, dirección, permiso de conducir, correo) y guarda el registro.
                         </p>
@@ -313,7 +313,7 @@
         </div>
 
         {{-- Contacto y Soporte --}}
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <div class="bg-[#fff] dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
             <div class="p-6">
                 <h3 class="text-2xl font-bold mb-4 text-center text-gray-900 dark:text-gray-100 flex items-center justify-center">
                     <i class="fas fa-headset text-3xl mr-3 text-sky-500"></i>

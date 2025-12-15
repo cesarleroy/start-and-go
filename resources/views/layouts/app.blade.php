@@ -44,35 +44,35 @@
 
             <nav class="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
                 <a href="{{ route('inicio') }}" 
-                   class="flex items-center px-4 py-3 rounded-md transition-colors {{ request()->routeIs('inicio') ? 'bg-sky-700 text-white' : 'text-gray-400 hover:bg-gray-700 hover:text-white' }}">
+                   class="flex items-center px-4 py-3 rounded-md transition-colors {{ request()->routeIs('inicio') ? 'bg-sky-700 text-white' : 'text-gray-400 hover:bg-gray-700 hover:text-white' }} no-underline">
                     <i class="fas fa-home w-6 text-center mr-3"></i>
                     Inicio
                 </a>
 
                 @if(auth()->user()->esAdmin())
-                <a href="{{ route('empleados.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('empleados.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
                     <i class="fa-solid fa-user-tie w-6 text-center mr-3"></i>
                     Empleados
                 </a>
                 @endif
 
-                <a href="{{ route('alumnos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('alumnos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
                     <i class="fas fa-users w-6 text-center mr-3"></i>
                     Alumnos
                 </a>
 
-                <a href="{{ route('pagos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('pagos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
                     <i class="fas fa-money-bill-wave w-6 text-center mr-3"></i>
                     Pagos
                 </a>
 
-                <a href="{{ route('agenda.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('agenda.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
                     <i class="fas fa-calendar-alt w-6 text-center mr-3"></i>
                     Agenda
                 </a>
 
                 @if(auth()->user()->esAdmin())
-                <a href="{{ route('reportes.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors">
+                <a href="{{ route('reportes.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
                     <i class="fas fa-chart-bar w-6 text-center mr-3"></i>
                     Reportes
                 </a>
@@ -96,7 +96,7 @@
         <div class="flex-1 flex flex-col overflow-hidden relative transition-all duration-300"
              :class="(sidebarOpen && window.innerWidth >= 1024) ? 'lg:ml-64' : ''">
             
-            <header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-red border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <header class="flex items-center justify-between px-6 py-4 bg-[#fff] dark:bg-slate-900 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
                 
                 <div class="flex items-center">
                     <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 dark:text-gray-200 focus:outline-none p-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700">
@@ -115,8 +115,8 @@
                 </div>
 
                 <div class="flex items-center">
-                    <a href="/ayuda" class="text-yellow-500 hover:text-yellow-600 text-xl">
-                        <i class="fas fa-lightbulb"></i>
+                    <a href="/ayuda" class="text-blue-500 dark:text-[#fff] hover:text-blue-600 dark:hover:text-gray-300 text-xl" title="Ayuda">
+                        <i class="fas fa-circle-question"></i>
                     </a>
                 </div>
             </header>
@@ -135,7 +135,7 @@
 
                     @yield('content') 
                 
-                <footer class="bg-slate-900 text-gray-400 text-center py-6 mt-auto">
+                <footer class="bg-[fff] text:slate-400 dark:text-gray-400 text-center py-6 mt-auto dark:bg-slate-900 transition-colors duration-300 border-t border-solid border-slate-700 p-4">
                     <p>&copy; 2025 Start & Go. Todos los derechos reservados.</p>
                 </footer>
           </main>

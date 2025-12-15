@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="py-12 px-6 md:px-20 text-center bg-white dark:bg-slate-800 transition-colors duration-300">
+    <div class="py-12 px-6 md:px-20 text-center bg-[fff] dark:bg-slate-800 transition-colors duration-300">
         <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-6">¿Quiénes somos?</h2>
         <p class="text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-6 leading-relaxed text-lg">
             Somos una escuela de manejo comprometida con tu seguridad y aprendizaje, contamos con instructores certificados, vehículos modernos y programas personalizados para que obtengas tu licencia con confianza.
