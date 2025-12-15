@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Empleados')
 
 @section('content')
 <div class="container-fluid p-4 min-h-[calc(100vh-80px)] relative">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Inicio')
 @section('content')
     <div class="relative w-full h-[400px] md:h-[500px]">
         <img src="{{ asset('img/clase1.jpg') }}" 
