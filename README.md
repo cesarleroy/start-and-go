@@ -124,7 +124,7 @@ DB_PASSWORD=<tu_contra>
 > [!TIP]
 > Estos pueden ser los datos por defecto dependiendo el motor que utilices
 
-Para MySQL
+*Para MySQL:*
 ```JSON
 {
     "DB_CONNECTION": "mysql",
@@ -132,7 +132,7 @@ Para MySQL
 }
 ```
 
-Para PostgreSQL
+*Para PostgreSQL:*
 ```JSON
 {
     "DB_CONNECTION": "pgsql",
@@ -144,7 +144,6 @@ Para PostgreSQL
 - En cualquier caso, si es en local basta con tener el `DB_HOST` con valor `127.0.0.1`
 - El usuario en Postgres por defecto suele ser `postgres`, la contraseña depende de lo que hayas puesto durante la instalación
 
-> Crear previamente la bd `escuela`
 5. Instalar dependencias
 ```bash
 composer install
