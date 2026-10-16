@@ -9,7 +9,7 @@ class ContratacionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Insertamos los 3 tipos de contratación base
+        // Insertamos los 4 tipos de contratación base
         $contrataciones = [
             [
                 'tipo_contratacion' => 'BÁSICO',
@@ -26,9 +26,16 @@ class ContratacionSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'tipo_contratacion' => 'INTENSIVO',
+                'precio' => 4000,
+                'desc_beneficios' => '15 DÍAS, 4HRS X DÍA',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'tipo_contratacion' => 'PREMIUM',
                 'precio' => 5000,
-                'desc_beneficios' => '18 DÍAS, 4HRS X DÍA',
+                'desc_beneficios' => '20 DÍAS, 4HRS X DÍA',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

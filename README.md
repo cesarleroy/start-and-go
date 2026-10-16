@@ -111,13 +111,37 @@ cp .env.example .env
 
 4. Editar el archivo nuevo ajustando los parámetros según el motor de bd, host, puerto y credenciales
 ```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_CONNECTION=<tu_motor_sql>
+DB_HOST=<tu_host>
+DB_PORT=<_tu_puerto>
 DB_DATABASE=escuela
-DB_USERNAME=root
+DB_USERNAME=<tu_user>
 DB_PASSWORD=<tu_contra>
 ```
+> [!CAUTION] Fundamental
+> Crear previamente la bd `escuela`
+
+> [!TIP] Sugerencia
+> Estos pueden ser los datos por defecto dependiendo el motor que utilices
+Para MySQL
+```JSON
+{
+    "DB_CONNECTION": "mysql",
+    "DB_PORT": "3306",
+}
+```
+
+Para PostgreSQL
+```JSON
+{
+    "DB_CONNECTION": "pgsql",
+    "DB_PORT": "5432",
+    "DB_USERNAME": "postgres",
+}
+```
+
+- En cualquier caso, si es en local basta con tener el `DB_HOST` con valor `127.0.0.1`
+- El usuario en Postgres por defecto suele ser `postgres`, la contraseña depende de lo que hayas puesto durante la instalación
 
 > Crear previamente la bd `escuela`
 5. Instalar dependencias
@@ -142,7 +166,7 @@ o si ya las tienes listas
 php artisan serve
 ```
 
-> [!IMPORTANT]
+> [!IMPORTANT] Sugerencia
 > Tambien puedes ejecutar el script de powershell que ya realice lo anterior (a excepcion de los ajustes en los parámetros del servidor en el `.env`)
 > Ejecuta primero la siguiente politíca en una nueva terminal de PowerShell en modo Administrador.
 
