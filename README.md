@@ -118,10 +118,10 @@ DB_DATABASE=escuela
 DB_USERNAME=<tu_user>
 DB_PASSWORD=<tu_contra>
 ```
-> [!CAUTION] Fundamental
+> [!CAUTION]
 > Crear previamente la bd `escuela`
 
-> [!TIP] Sugerencia
+> [!TIP]
 > Estos pueden ser los datos por defecto dependiendo el motor que utilices
 Para MySQL
 ```JSON
@@ -166,7 +166,7 @@ o si ya las tienes listas
 php artisan serve
 ```
 
-> [!IMPORTANT] Sugerencia
+> [!IMPORTANT]
 > Tambien puedes ejecutar el script de powershell que ya realice lo anterior (a excepcion de los ajustes en los parámetros del servidor en el `.env`)
 > Ejecuta primero la siguiente politíca en una nueva terminal de PowerShell en modo Administrador.
 
