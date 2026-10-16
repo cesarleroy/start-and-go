@@ -15,7 +15,7 @@ Write-Host '==========================================' -ForegroundColor Cyan
 if (-not (Test-Path '.env')) {
   Write-Host '[1/6] El archivo .env no existe. Creando copia de .env.example...' -ForegroundColor Yellow
   Copy-Item '.env.example' '.env'
-  Write-Host 'Generando llave de aplicación...'
+  Write-Host 'Generando llave de aplicacion...'
   php artisan key:generate
 }
 else {
@@ -23,15 +23,15 @@ else {
 }
 
 # Pausa para configurar
-Write-Host '`n===========================================================' -ForegroundColor Magenta
-Write-Host 'ATENCIÓN: Configuración de Base de Datos' -ForegroundColor Red
+Write-Host '===========================================================' -ForegroundColor Magenta
+Write-Host 'ATENCION: Configuracion de Base de Datos' -ForegroundColor Red
 Write-Host 'Por favor, abre el archivo .env y configura las credenciales' -ForegroundColor White
 Write-Host 'de tu base de datos antes de continuar.' -ForegroundColor White
 Write-Host '===========================================================' -ForegroundColor Magenta
 Read-Host -Prompt 'Presiona \"Enter\" cuando hayas guardado los cambios en el archivo .env'
 
 # 2. Instalar Dependencias de Backend (Composer)
-Write-Host '`n[2/6] Verificando dependencias de Composer...' -ForegroundColor Yellow
+Write-Host '[2/6] Verificando dependencias de Composer...' -ForegroundColor Yellow
 try {
   composer install
 }
@@ -41,7 +41,7 @@ catch {
 }
 
 # 3. Instalar Dependencias de Frontend (NPM)
-Write-Host '`n[3/6] Verificando dependencias de NPM...' -ForegroundColor Yellow
+Write-Host '[3/6] Verificando dependencias de NPM...' -ForegroundColor Yellow
 try {
   npm install
 }
@@ -51,8 +51,8 @@ catch {
 }
 
 # 4. Base de Datos y Seeders
-Write-Host '`n[4/6] Ejecutando Migraciones y Seeders...' -ForegroundColor Yellow
-Write-Host '      Nota: Se borrarán los datos anteriores.' -ForegroundColor DarkGray
+Write-Host '[4/6] Ejecutando Migraciones y Seeders...' -ForegroundColor Yellow
+Write-Host '      Nota: Se borraran los datos anteriores.' -ForegroundColor DarkGray
 try {
   # Usamos el seeder específico que creamos (DatosPruebaSeeder)
   php artisan migrate:fresh;
@@ -65,7 +65,7 @@ catch {
 }
 
 # 5. Compilar Assets (Vite)
-Write-Host '`n[5/6] Compilando assets para producción...' -ForegroundColor Yellow
+Write-Host '[5/6] Compilando assets para produccion...' -ForegroundColor Yellow
 try {
   npm run build
 }
@@ -75,7 +75,7 @@ catch {
 }
 
 # 6. Iniciar Servidor
-Write-Host '`n[6/6] Todo listo. Iniciando servidor...' -ForegroundColor Green
+Write-Host '[6/6] Todo listo. Iniciando servidor...' -ForegroundColor Green
 Write-Host '      Accede a: http://127.0.0.1:8000' -ForegroundColor Cyan
 Write-Host '      (Presiona Ctrl+C para detener)' -ForegroundColor DarkGray
 php artisan serve
