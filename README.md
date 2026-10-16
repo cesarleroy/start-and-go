@@ -123,6 +123,7 @@ DB_PASSWORD=<tu_contra>
 
 > [!TIP]
 > Estos pueden ser los datos por defecto dependiendo el motor que utilices
+
 Para MySQL
 ```JSON
 {
