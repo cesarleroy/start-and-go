@@ -22,6 +22,14 @@ else {
   Write-Host "[1/6] Archivo .env detectado." -ForegroundColor Green
 }
 
+# Pausa para configurar
+Write-Host "`n===========================================================" -ForegroundColor Magenta
+Write-Host "ATENCIÓN: Configuración de Base de Datos" -ForegroundColor Red
+Write-Host "Por favor, abre el archivo .env y configura las credenciales" -ForegroundColor White
+Write-Host "de tu base de datos antes de continuar." -ForegroundColor White
+Write-Host "===========================================================" -ForegroundColor Magenta
+Read-Host -Prompt "Presiona 'Enter' cuando hayas guardado los cambios en el archivo .env"
+
 # 2. Instalar Dependencias de Backend (Composer)
 Write-Host "`n[2/6] Verificando dependencias de Composer..." -ForegroundColor Yellow
 try {
