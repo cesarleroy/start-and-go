@@ -1,24 +1,72 @@
-*.log
-.DS_Store
+#--------------------------------------------------------------------------
+# Dependencias
+#--------------------------------------------------------------------------
+/node_modules
+/vendor
+
+#--------------------------------------------------------------------------
+# Entorno de Laravel y Credenciales
+#--------------------------------------------------------------------------
 .env
 .env.backup
 .env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
 /auth.json
-/node_modules
+/storage/*.key
+
+#--------------------------------------------------------------------------
+# Directorios de Archivos Compilados / Assets / Build
+#--------------------------------------------------------------------------
 /public/build
 /public/hot
 /public/storage
-/storage/*.key
+
+#--------------------------------------------------------------------------
+# Logs y Archivos de Caché / Pruebas
+#--------------------------------------------------------------------------
+*.log
+.phpactor.json
+.phpunit.result.cache
+/.phpunit.cache
 /storage/pail
-/vendor
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+!/storage/framework/cache/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/views/.gitignore
+
+#--------------------------------------------------------------------------
+# Archivos del Sistema Operativo
+#--------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Aa]ppleDouble
+.LSOverride
+Desktop.ini
+
+#--------------------------------------------------------------------------
+# IDEs, Editores y Herramientas de Desarrollo
+#--------------------------------------------------------------------------
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#--------------------------------------------------------------------------
+# Entornos de Pruebas Virtuales (Laravel Homestead / Sail / Docker local)
+#--------------------------------------------------------------------------
 Homestead.json
 Homestead.yaml
-Thumbs.db
+.phpunit.cache
