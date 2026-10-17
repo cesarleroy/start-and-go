@@ -15,12 +15,13 @@ Write-Host '==========================================' -ForegroundColor Cyan
 if (-not (Test-Path '.env')) {
   Write-Host '[1/6] El archivo .env no existe. Creando copia de .env.example...' -ForegroundColor Yellow
   Copy-Item '.env.example' '.env'
-  Write-Host 'Generando llave de aplicacion...'
-  php artisan key:generate
 }
 else {
   Write-Host '[1/6] Archivo .env detectado.' -ForegroundColor Green
 }
+
+Write-Host 'Generando llave de aplicacion...'
+php artisan key:generate
 
 # Pausa para configurar
 Write-Host '===========================================================' -ForegroundColor Magenta
