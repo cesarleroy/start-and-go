@@ -55,15 +55,15 @@ Está plataforma va dirigido a dos usuarios finales:
 Administrador
 ```JSON
 {
-    "user": "admin",
-    "password": "admin"
+    "user": "admin@admin",
+    "password": "administrador"
 }
 ```
 
 Recepcionista
 ```JSON
 {
-    "user": "recepcionista",
+    "user": "recepcionista@recepcionista",
     "password": "recepcionista"
 }
 ```

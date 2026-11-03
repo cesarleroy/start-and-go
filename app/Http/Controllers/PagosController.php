@@ -15,15 +15,15 @@ class PagosController extends Controller
         // Obtener pagos con relaciones
         $pagos = Pago::with(['alumno', 'contratacion'])
                     ->orderBy('fecha_pago', 'desc')
-                    ->get();
+                    ->paginate(15);
         
         // Obtener alumnos para el select
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
         // Obtener tipos de contratación
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
+        $contrataciones = Contratacion::orderBy('tipo_contratacion')->paginate(15);
         
         return view('pagos.index', compact('pagos', 'alumnos', 'contrataciones'));
     }
@@ -32,9 +32,9 @@ class PagosController extends Controller
     {
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
+        $contrataciones = Contratacion::orderBy('tipo_contratacion')->paginate(15);
         
         return view('pagos.create', compact('alumnos', 'contrataciones'));
     }
@@ -89,9 +89,9 @@ class PagosController extends Controller
         
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
+        $contrataciones = Contratacion::orderBy('tipo_contratacion')->paginate(15);
         
         return view('pagos.edit', compact('pago', 'alumnos', 'contrataciones'));
     }

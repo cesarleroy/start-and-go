@@ -16,16 +16,16 @@ class AgendaController extends Controller
         $agendas = Agenda::with(['empleado', 'alumno'])
                         ->orderBy('fecha', 'desc')
                         ->orderBy('hora')
-                        ->get();
+                        ->paginate(15);
         
         // Listas para los filtros o modales si se necesitan
         $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                             ->orderBy('nombre')
-                            ->get();
+                            ->paginate(15);
         
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
         return view('agenda.index', compact('agendas', 'empleados', 'alumnos'));
     }
@@ -34,8 +34,12 @@ class AgendaController extends Controller
     {
         // Este método se usa si tienes una vista separada para crear, 
         // pero como usas modal en index, quizás no lo uses mucho.
-        $empleados = Empleado::all();
-        $alumnos = Alumno::all();
+
+        // Esto satura la memoria asignada por PHP
+        //$empleados = Empleado::all();
+
+        $empleados = Empleado::paginate(15);
+        $alumnos = Alumno::paginate(15);
         return view('agenda.create', compact('empleados', 'alumnos'));
     }
 
@@ -154,7 +158,7 @@ class AgendaController extends Controller
     {
         $pagos = Pago::where('rfc_cliente', $rfc)
                     ->orderBy('fecha_pago', 'desc')
-                    ->get();
+                    ->paginate(15);
         
         return response()->json($pagos);
     }

@@ -13,7 +13,7 @@ class AlumnoController extends Controller
 
     public function index()
     {
-        $alumnos = Alumno::all();
+        $alumnos = Alumno::paginate(15);
         return view('alumnos.index', compact('alumnos'));
     }
 
