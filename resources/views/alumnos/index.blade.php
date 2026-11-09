@@ -87,6 +87,10 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <!-- Paginación de Laravel -->
+                    <div class="mt-4 p-4">
+                        {{ $alumnos->appends(request()->query())->links() }}
+                    </div>
                 </div>
             </div>
         </div>

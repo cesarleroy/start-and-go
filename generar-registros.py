@@ -4,11 +4,15 @@ from faker import Faker
 from sqlalchemy import create_engine
 import random
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # 1. Configuración inicial
 fake = Faker('es_MX')
-num_alumnos = 1000
-num_empleados = 20
+num_alumnos = 4000
+num_empleados = 120
 
 
 def generar_rfc():
@@ -19,8 +23,7 @@ def generar_rfc():
     return f"{letras}{numeros}{homoclave}"
 
 
-SUPABASE_URI = "postgresql+psycopg2://postgres:postgres@localhost:5432/escuela"
-motor_db = create_engine(SUPABASE_URI)
+motor_db = create_engine(os.getenv('SUPABASE_URI'))
 
 print("Iniciando inyección masiva respetando seeders de Laravel...")
 
@@ -30,25 +33,43 @@ tipos_contratacion = ['BÁSICO', 'INTERMEDIO', 'INTENSIVO', 'PREMIUM']
 precios = {'BÁSICO': 2000, 'INTERMEDIO': 3500,
            'INTENSIVO': 4000, 'PREMIUM': 5000}
 formas_pago = ['EFECTIVO', 'DEBITO', 'CRÉDITO', 'TRANSFERENCIA']
+# ... (Código anterior igual hasta la sección 2) ...
+
+DIAS_HABILES = ['LUNES', 'MARTES', 'MIÉRCOLES',
+                'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO']
+
+# NUEVO: Diccionario relacional para mapear Alcaldías con sus Colonias reales
+COLONIAS_POR_ALCALDIA = {
+    'BENITO JUÁREZ': ['DEL VALLE', 'NARVARTE', 'NÁPOLES', 'PORTALES', 'ÁLAMOS'],
+    'MIGUEL HIDALGO': ['POLANCO', 'LOMAS DE CHAPULTEPEC', 'CONDESA', 'ESCANDÓN', 'TACUBAYA'],
+    'COYOACÁN': ['CENTRO DE COYOACÁN', 'DEL CARMEN', 'PEDREGAL DE SANTO DOMINGO', 'CHURUBUSCO', 'CULHUACÁN'],
+    'IZTAPALAPA': ['SANTA CRUZ MEYEHUALCO', 'CONSTITUCIÓN DE 1917', 'TEZONTLE', 'APATLACO', 'ESCUADRÓN 201'],
+    'TLALPAN': ['COAPA', 'SAN LORENZO HUIPULCO', 'ARENAL', 'PEDREGAL DE SAN NICOLÁS', 'HÉROES DE PADIERNA'],
+    'GAM': ['LINDAVISTA', 'ARAGÓN', 'TEPEYAC', 'INDUSTRIAL', 'MARTÍN CARRERA']
+}
 
 # 3. Generación de Empleados (Instructores adicionales a los del seeder)
 empleados_data = []
 for _ in range(num_empleados):
+    # Selección aleatoria y coherente de ubicación
+    alcaldia_emp = random.choice(list(COLONIAS_POR_ALCALDIA.keys()))
+    colonia_emp = random.choice(COLONIAS_POR_ALCALDIA[alcaldia_emp])
+
     empleados_data.append({
         'rfc': generar_rfc(),
         'nombre': fake.first_name()[:30].upper(),
         'apellido_p': fake.last_name()[:30].upper(),
         'apellido_m': fake.last_name()[:30].upper(),
-        'puesto': 'INSTRUCTOR',
+        'puesto': 'INSTRUCTOR(A)',
         'turno': random.choice(['Matutino', 'Vespertino']),
-        'descansos': 'DOMINGO',
+        'descansos': ",".join(random.sample(DIAS_HABILES, 2)),
         'sexo': random.choice(['Masculino', 'Femenino']),
         'fecha_nac': fake.date_of_birth(minimum_age=25, maximum_age=55),
         'tel_personal': fake.random_number(digits=10, fix_len=True),
         'calle': fake.street_name()[:30].upper(),
         'numero': random.randint(1, 999),
-        'colonia': fake.city_prefix()[:30].upper(),
-        'alcaldia': fake.city()[:30].upper(),
+        'colonia': colonia_emp,
+        'alcaldia': alcaldia_emp,
         'created_at': datetime.now(),
         'updated_at': datetime.now()
     })
@@ -57,15 +78,22 @@ empleados.to_sql('empleados', motor_db, if_exists='append', index=False)
 print("Nuevos empleados inyectados.")
 
 # 4. Generación de Alumnos masivos
-alcaldias = ['Benito Juárez', 'Miguel Hidalgo',
-             'Coyoacán', 'Iztapalapa', 'Tlalpan', 'GAM']
+# ['BENITO JUÁREZ', 'MIGUEL HIDALGO', ...]
+alcaldias = list(COLONIAS_POR_ALCALDIA.keys())
 prob_alcaldias = [0.25, 0.20, 0.15, 0.15, 0.15, 0.10]
 
 alumnos_data = []
 paquetes_asignados = []
+OBSERVACIONES_REALES = [
+    "NINGUNA", "NINGUNA", "NINGUNA", "NINGUNA", "NINGUNA",
+    "USA LENTES", "USA LENTES",
+    "NERVIOSO(A)", "DIABÉTICO(A)", "TOMA MEDICAMENTO CONTROLADO"
+]
 
 for _ in range(num_alumnos):
-    alcaldia = np.random.choice(alcaldias, p=prob_alcaldias)
+    # Selección ponderada de alcaldía y colonia correspondiente
+    alcaldia_alumno = np.random.choice(alcaldias, p=prob_alcaldias)
+    colonia_alumno = random.choice(COLONIAS_POR_ALCALDIA[alcaldia_alumno])
     rfc_alumno = generar_rfc()
 
     alumnos_data.append({
@@ -73,20 +101,20 @@ for _ in range(num_alumnos):
         'nombre': fake.first_name()[:255].upper(),
         'apellido_p': fake.last_name()[:255].upper(),
         'apellido_m': fake.last_name()[:255].upper(),
-        'fecha_nac': fake.date_of_birth(minimum_age=16, maximum_age=50),
+        'fecha_nac': fake.date_of_birth(minimum_age=18, maximum_age=50),
         'calle': fake.street_name()[:255].upper(),
         'numero': str(random.randint(1, 9999)),
-        'colonia': fake.city_prefix()[:255].upper(),
-        'alcaldia': alcaldia.upper(),
+        'colonia': colonia_alumno,
+        'alcaldia': alcaldia_alumno,
         'permiso': 'SI' if random.choice([True, False]) else 'EN TRÁMITE',
-        'observaciones': 'Generado por Python',
+        'observaciones': random.choice(OBSERVACIONES_REALES),
         'correo': fake.email()[:255],
         'created_at': datetime.now(),
         'updated_at': datetime.now()
     })
 
-    # Asignación de paquete para clustering
-    if alcaldia in ['Benito Juárez', 'Miguel Hidalgo']:
+    # Asignación de paquete para clustering (usando mayúsculas para coincidir)
+    if alcaldia_alumno in ['BENITO JUÁREZ', 'MIGUEL HIDALGO']:
         tipo = np.random.choice(tipos_contratacion, p=[0.1, 0.2, 0.3, 0.4])
     else:
         tipo = np.random.choice(tipos_contratacion, p=[0.4, 0.3, 0.2, 0.1])

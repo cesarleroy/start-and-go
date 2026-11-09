@@ -81,15 +81,19 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="encabezado-oscuro">Instructor</th>
-                            <th class="encabezado-oscuro">Clases Impartidas</th>
+                            <th class="encabezado-oscuro text-center">RFC</th>
+                            <th class="encabezado-oscuro text-center" colspan="3">Instructor</th>
+                            <th class="encabezado-oscuro text-center">Clases Impartidas</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($instructores as $instructor)
                         <tr>
-                            <td>{{ $instructor->rfc_emp }}</td> 
-                            <td>{{ $instructor->total }}</td>
+                            <td class="text-center">{{ $instructor->rfc_emp }}</td> 
+                            <td class="text-center">{{ $instructor->nombre }}</td> 
+                            <td class="text-center">{{ $instructor->apellido_p }}</td> 
+                            <td class="text-center">{{ $instructor->apellido_m }}</td> 
+                            <td class="text-center">{{ $instructor->total }}</td>
                         </tr>
                         @empty
                         <tr>
