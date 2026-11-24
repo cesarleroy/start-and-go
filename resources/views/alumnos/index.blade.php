@@ -16,23 +16,29 @@
             <div class="card-header bg-white py-3">
                 <div class="row align-items-center">
                     <div class="col-md-6 mb-2 mb-md-0">
-                        <form method="GET" action="{{ url()->current() }}" class="flex items-center gap-2 w-full sm:w-96">
-    <input
-        type="text"
-        name="search"
-        value="{{ request('search') }}"
-        placeholder="Buscar por nombre, RFC..."
-        class="w-full rounded-lg bg-slate-800 border border-slate-600 text-white px-3 py-2 text-sm focus:border-sky-400 focus:outline-none"
-    >
-    <button type="submit" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold">
-        Buscar
-    </button>
-    @if(request('search'))
-        <a href="{{ url()->current() }}" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm">
-            Limpiar
-        </a>
-    @endif
-</form>
+                        <form method="GET" action="{{ url()->current() }}" style="display: flex; align-items: center; gap: 0.5rem; width: 100%; max-width: 28rem;">
+                            <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Buscar por nombre, RFC..."
+                                style="width: 100%; background-color: #1e293b; color: #f8fafc; border: 1px solid #475569; border-radius: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.875rem; outline: none;"
+                            >
+                            <button
+                                type="submit"
+                                style="background-color: #0284c7; color: #ffffff; border: none; border-radius: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 600; cursor: pointer; white-space: nowrap;"
+                            >
+                                Buscar
+                            </button>
+                            @if(request('search'))
+                                <a
+                                    href="{{ url()->current() }}"
+                                    style="background-color: #475569; color: #f8fafc; text-decoration: none; border-radius: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.875rem; white-space: nowrap;"
+                                >
+                                    Limpiar
+                                </a>
+                            @endif
+                        </form>
                     </div>
                     <div class="col-md-6 text-end">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarAlumno">
