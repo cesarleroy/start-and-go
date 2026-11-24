@@ -27,7 +27,7 @@ class PagosController extends Controller
                 });
             })
             ->orderByRaw('created_at DESC NULLS LAST')
-            ->orderBy('id', 'desc')
+            ->orderBy('fecha_pago', 'desc')
             ->paginate(15)
             ->withQueryString();
 
