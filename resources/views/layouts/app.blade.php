@@ -49,33 +49,41 @@
                     Inicio
                 </a>
 
-                @if(auth()->user()->esAdmin())
-                <a href="{{ route('empleados.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
-                    <i class="fa-solid fa-user-tie w-6 text-center mr-3"></i>
-                    Empleados
-                </a>
-                @endif
+                @if(auth()->user()->role === 'alumno')
+                <a href="{{ route('alumno.portal') }}" :active="request()->routeIs('alumno.portal')" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                  <i class="fa-solid fa-user-tie w-6 text-center mr-3"></i>    
+                  Mi Portal de Alumno
+                <a>
+                @else
+                {{-- Enlaces actuales de Administrador y Recepcionista --}}
+                  @if(auth()->user()->esAdmin())
+                  <a href="{{ route('empleados.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                      <i class="fa-solid fa-user-tie w-6 text-center mr-3"></i>
+                      Empleados
+                  </a>
+                  @endif
 
-                <a href="{{ route('alumnos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
-                    <i class="fas fa-users w-6 text-center mr-3"></i>
-                    Alumnos
-                </a>
+                  <a href="{{ route('alumnos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                      <i class="fas fa-users w-6 text-center mr-3"></i>
+                      Alumnos
+                  </a>
 
-                <a href="{{ route('pagos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
-                    <i class="fas fa-money-bill-wave w-6 text-center mr-3"></i>
-                    Pagos
-                </a>
+                  <a href="{{ route('pagos.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                      <i class="fas fa-money-bill-wave w-6 text-center mr-3"></i>
+                      Pagos
+                  </a>
 
-                <a href="{{ route('agenda.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
-                    <i class="fas fa-calendar-alt w-6 text-center mr-3"></i>
-                    Agenda
-                </a>
+                  <a href="{{ route('agenda.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                      <i class="fas fa-calendar-alt w-6 text-center mr-3"></i>
+                      Agenda
+                  </a>
 
-                @if(auth()->user()->esAdmin())
-                <a href="{{ route('reportes.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
-                    <i class="fas fa-chart-bar w-6 text-center mr-3"></i>
-                    Reportes
-                </a>
+                  @if(auth()->user()->esAdmin())
+                  <a href="{{ route('reportes.index') }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md transition-colors no-underline">
+                      <i class="fas fa-chart-bar w-6 text-center mr-3"></i>
+                      Reportes
+                  </a>
+                  @endif
                 @endif
 
                 <button @click="toggleTheme()" class="w-full flex items-center px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-yellow-400 rounded-md transition-colors cursor-pointer">

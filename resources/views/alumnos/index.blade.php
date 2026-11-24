@@ -16,7 +16,23 @@
             <div class="card-header bg-white py-3">
                 <div class="row align-items-center">
                     <div class="col-md-6 mb-2 mb-md-0">
-                        <input type="text" id="busquedaTabla" class="form-control" placeholder="Buscar en la tabla...">
+                        <form method="GET" action="{{ url()->current() }}" class="flex items-center gap-2 w-full sm:w-96">
+    <input
+        type="text"
+        name="search"
+        value="{{ request('search') }}"
+        placeholder="Buscar por nombre, RFC..."
+        class="w-full rounded-lg bg-slate-800 border border-slate-600 text-white px-3 py-2 text-sm focus:border-sky-400 focus:outline-none"
+    >
+    <button type="submit" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold">
+        Buscar
+    </button>
+    @if(request('search'))
+        <a href="{{ url()->current() }}" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm">
+            Limpiar
+        </a>
+    @endif
+</form>
                     </div>
                     <div class="col-md-6 text-end">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarAlumno">

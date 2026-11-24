@@ -10,24 +10,43 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener agendas con relaciones
+        $search = trim((string) $request->input('search', ''));
+
         $agendas = Agenda::with(['empleado', 'alumno'])
-                        ->orderBy('fecha', 'desc')
-                        ->orderBy('hora')
-                        ->paginate(15);
-        
-        // Listas para los filtros o modales si se necesitan
+            ->when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+                $query->where(function ($q) use ($like) {
+                    $q->where('rfc_cliente', 'ILIKE', $like)
+                      ->orWhere('rfc_emp', 'ILIKE', $like)
+                      ->orWhere('actividad', 'ILIKE', $like)
+                      ->orWhere('notas_resultado', 'ILIKE', $like)
+                      ->orWhereHas('alumno', function ($qa) use ($like) {
+                          $qa->whereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like]);
+                      })
+                      ->orWhereHas('empleado', function ($qe) use ($like) {
+                          $qe->whereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like]);
+                      });
+                });
+            })
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Sin paginate(15) para que aparezcan todos en los <select> del modal
         $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                            ->orderBy('nombre')
-                            ->paginate(15);
-        
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                        ->orderBy('nombre')
-                        ->paginate(15);
-        
-        return view('agenda.index', compact('agendas', 'empleados', 'alumnos'));
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
+        return view('agenda.index', compact('agendas', 'empleados', 'alumnos', 'search'));
     }
 
     public function create()

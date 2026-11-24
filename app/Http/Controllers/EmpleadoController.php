@@ -7,10 +7,26 @@ use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $empleados = Empleado::paginate(15);
-        return view('empleados.index', compact('empleados'));
+        $search = trim((string) $request->input('search', ''));
+
+        $empleados = Empleado::when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+                $query->where(function ($q) use ($like) {
+                    $q->where('rfc', 'ILIKE', $like)
+                      ->orWhereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like])
+                      ->orWhere('puesto', 'ILIKE', $like)
+                      ->orWhere('turno', 'ILIKE', $like)
+                      ->orWhere('alcaldia', 'ILIKE', $like);
+                });
+            })
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('empleados.index', compact('empleados', 'search'));
     }
 
     public function store(Request $request)

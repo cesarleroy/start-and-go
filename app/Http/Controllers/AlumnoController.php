@@ -11,10 +11,26 @@ use Illuminate\Support\Facades\Storage;
 class AlumnoController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $alumnos = Alumno::paginate(15);
-        return view('alumnos.index', compact('alumnos'));
+        $search = trim((string) $request->input('search', ''));
+
+        $alumnos = Alumno::when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+                $query->where(function ($q) use ($like) {
+                    $q->where('rfc', 'ILIKE', $like)
+                      ->orWhereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like])
+                      ->orWhere('correo', 'ILIKE', $like)
+                      ->orWhere('alcaldia', 'ILIKE', $like)
+                      ->orWhere('permiso', 'ILIKE', $like);
+                });
+            })
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('alumnos.index', compact('alumnos', 'search'));
     }
 
     public function store(Request $request)
