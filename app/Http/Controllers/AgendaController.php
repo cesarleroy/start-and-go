@@ -10,32 +10,55 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener agendas con relaciones
+        $search = trim((string) $request->input('search', ''));
+
         $agendas = Agenda::with(['empleado', 'alumno'])
-                        ->orderBy('fecha', 'desc')
-                        ->orderBy('hora')
-                        ->get();
-        
-        // Listas para los filtros o modales si se necesitan
+            ->when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+                $query->where(function ($q) use ($like) {
+                    $q->where('rfc_cliente', 'ILIKE', $like)
+                      ->orWhere('rfc_emp', 'ILIKE', $like)
+                      ->orWhere('actividad', 'ILIKE', $like)
+                      ->orWhere('notas_resultado', 'ILIKE', $like)
+                      ->orWhereHas('alumno', function ($qa) use ($like) {
+                          $qa->whereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like]);
+                      })
+                      ->orWhereHas('empleado', function ($qe) use ($like) {
+                          $qe->whereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like]);
+                      });
+                });
+            })
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Sin paginate(15) para que aparezcan todos en los <select> del modal
         $empleados = Empleado::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                            ->orderBy('nombre')
-                            ->get();
-        
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                        ->orderBy('nombre')
-                        ->get();
-        
-        return view('agenda.index', compact('agendas', 'empleados', 'alumnos'));
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
+        return view('agenda.index', compact('agendas', 'empleados', 'alumnos', 'search'));
     }
 
     public function create()
     {
         // Este método se usa si tienes una vista separada para crear, 
         // pero como usas modal en index, quizás no lo uses mucho.
-        $empleados = Empleado::all();
-        $alumnos = Alumno::all();
+
+        // Esto satura la memoria asignada por PHP
+        //$empleados = Empleado::all();
+
+        $empleados = Empleado::paginate(15);
+        $alumnos = Alumno::paginate(15);
         return view('agenda.create', compact('empleados', 'alumnos'));
     }
 
@@ -154,7 +177,7 @@ class AgendaController extends Controller
     {
         $pagos = Pago::where('rfc_cliente', $rfc)
                     ->orderBy('fecha_pago', 'desc')
-                    ->get();
+                    ->paginate(15);
         
         return response()->json($pagos);
     }

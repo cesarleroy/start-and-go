@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Alumno;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,15 +36,24 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $emailNormalizado = mb_strtolower(trim($request->email));
+        $alumnoExistente = Alumno::whereRaw('LOWER(TRIM(correo)) = ?', [$emailNormalizado])->first();
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $alumnoExistente ? 'alumno' : 'recepcionista',
+            'rfc_alumno' => $alumnoExistente?->rfc,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+        
+        if ($user->role === 'alumno') {
+            return redirect()->route('alumno.portal');
+        }
 
         return redirect(route('inicio', absolute: false));
     }

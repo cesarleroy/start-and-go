@@ -56,14 +56,22 @@ Administrador
 ```JSON
 {
     "user": "admin@admin",
+<<<<<<< HEAD
     "password": "admin123"
+=======
+    "password": "administrador"
+>>>>>>> 8391bac211b59d89edbbcd4effd563b1f38c260e
 }
 ```
 
 Recepcionista
 ```JSON
 {
+<<<<<<< HEAD
     "user": "recepcionista@recepcion",
+=======
+    "user": "recepcionista@recepcionista",
+>>>>>>> 8391bac211b59d89edbbcd4effd563b1f38c260e
     "password": "recepcionista"
 }
 ```

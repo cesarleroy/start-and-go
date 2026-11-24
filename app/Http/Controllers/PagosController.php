@@ -10,31 +10,45 @@ use Illuminate\Support\Facades\DB;
 
 class PagosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener pagos con relaciones
+        $search = trim((string) $request->input('search', ''));
+
         $pagos = Pago::with(['alumno', 'contratacion'])
-                    ->orderBy('fecha_pago', 'desc')
-                    ->get();
-        
-        // Obtener alumnos para el select
+            ->when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+                $query->where(function ($q) use ($like) {
+                    $q->where('rfc_cliente', 'ILIKE', $like)
+                      ->orWhere('tipo_contratacion', 'ILIKE', $like)
+                      ->orWhere('forma_pago', 'ILIKE', $like)
+                      ->orWhereHas('alumno', function ($qa) use ($like) {
+                          $qa->whereRaw("CONCAT_WS(' ', nombre, apellido_p, apellido_m) ILIKE ?", [$like]);
+                      });
+                });
+            })
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Sin paginate(15) para que aparezcan todos en el <select> y los más recientes salgan primero
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
-                        ->orderBy('nombre')
-                        ->get();
-        
-        // Obtener tipos de contratación
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
-        
-        return view('pagos.index', compact('pagos', 'alumnos', 'contrataciones'));
+            ->orderByRaw('created_at DESC NULLS LAST')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
+        $contrataciones = Contratacion::orderBy('precio', 'asc')->get();
+
+        return view('pagos.index', compact('pagos', 'alumnos', 'contrataciones', 'search'));
     }
 
     public function create()
     {
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
+        $contrataciones = Contratacion::orderBy('tipo_contratacion')->paginate(15);
         
         return view('pagos.create', compact('alumnos', 'contrataciones'));
     }
@@ -89,9 +103,9 @@ class PagosController extends Controller
         
         $alumnos = Alumno::select('rfc', 'nombre', 'apellido_p', 'apellido_m')
                         ->orderBy('nombre')
-                        ->get();
+                        ->paginate(15);
         
-        $contrataciones = Contratacion::orderBy('tipo_contratacion')->get();
+        $contrataciones = Contratacion::orderBy('tipo_contratacion')->paginate(15);
         
         return view('pagos.edit', compact('pago', 'alumnos', 'contrataciones'));
     }

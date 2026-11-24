@@ -8,7 +8,8 @@ use App\Http\Controllers\AyudaController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\PagosController;
-use Illuminate\Support\Facades\Gate; 
+use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\AlumnoPortalController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -65,6 +66,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/recepcion', function () {
         return "Bienvenido, Recepcionista";
+    });
+});
+
+Route::middleware(['auth'])->group(function () {
+    // Redirección inteligente en /inicio según rol
+    Route::get('/inicio', function () {
+        if (auth()->user()->role === 'alumno') {
+            return redirect()->route('alumno.portal');
+        }
+        return view('inicio');
+    })->name('inicio');
+
+    // Vista exclusiva del Alumno
+    Route::middleware(['alumno'])->group(function () {
+        Route::get('/mi-portal', [AlumnoPortalController::class, 'index'])
+            ->name('alumno.portal');
     });
 });
 

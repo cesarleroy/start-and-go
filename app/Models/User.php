@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'rfc_alumno' // <-- Agregar esto
     ];
 
     /**
@@ -55,5 +56,19 @@ class User extends Authenticatable
     public function esRecepcionista()
     {
         return $this->role === 'recepcionista';
+    }
+
+    public function alumno()
+    {
+        if ($this->rfc_alumno) {
+            return $this->belongsTo(Alumno::class, 'rfc_alumno', 'rfc');
+        }
+
+        return $this->hasOne(Alumno::class, 'correo', 'email');
+    }
+
+    public function isAlumno(): bool
+    {
+        return $this->role === 'alumno';
     }
 }

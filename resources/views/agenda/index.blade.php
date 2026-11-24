@@ -82,6 +82,10 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <!-- Paginación de Laravel -->
+                     <div class="mt-4 p-4">
+                      {{ $agendas->appends(request()->query())->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -36,9 +36,21 @@ class ReporteController extends Controller
             ->first();
 
         $instructores = DB::table('agenda')
-            ->select('rfc_emp', DB::raw('count(*) as total'))
-            ->whereBetween('fecha', [$fechaInicio, $fechaFin])
-            ->groupBy('rfc_emp')
+            ->join('empleados', 'agenda.rfc_emp', '=', 'empleados.rfc') // 1. Unimos las tablas
+            ->select(
+                'agenda.rfc_emp',
+                'empleados.nombre',
+                'empleados.apellido_p',
+                'empleados.apellido_m',
+                DB::raw('count(*) as total')
+            )
+            ->whereBetween('agenda.fecha', [$fechaInicio, $fechaFin]) // 2. Especificamos de qué tabla es la fecha
+            ->groupBy(
+                'agenda.rfc_emp', 
+                'empleados.nombre', 
+                'empleados.apellido_p', 
+                'empleados.apellido_m'
+            ) // 3. PostgreSQL exige agrupar por todas las columnas seleccionadas
             ->orderByDesc('total')
             ->limit(5)
             ->get();
